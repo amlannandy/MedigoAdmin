@@ -1,15 +1,13 @@
-.custom-btn {
-  padding: 10px 30px;
-  background-color: #581b98;
-  color: #ffffff;
+button {
+  color: #fff;
   border: none;
-  width: 200px;
   border-radius: 5px;
+  background-color: #2cb978;
+  padding: 10px 15px;
   cursor: pointer;
-  text-transform: uppercase;
-  box-shadow: 0.5px 1.5px 1.5px #dee1ec;
+  width: 100%;
 }
 
-.custom-btn:hover {
+button:hover {
   opacity: 90%;
 }

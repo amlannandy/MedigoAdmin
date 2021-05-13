@@ -4,7 +4,8 @@ import './style.css';
 const CustomInput = props => {
   return (
     <div>
-      <input {...props} className='custom-input' />
+      <label htmlFor={props.name}>{props.label}</label>
+      <input {...props} />
     </div>
   );
 };

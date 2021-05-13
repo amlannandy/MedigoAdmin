@@ -1,0 +1,25 @@
+.container {
+  flex-direction: row;
+  display: flex;
+}
+.container h1,
+p {
+  text-align: center;
+}
+.cover {
+  width: 50%;
+  align-items: center;
+}
+.cover img {
+  height: 400px;
+  width: 400px;
+  -webkit-filter: brightness(0) invert(1);
+  filter: brightness(0) invert(1);
+}
+.form-group {
+  width: 40%;
+  margin: 30px;
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 5px;
+}
