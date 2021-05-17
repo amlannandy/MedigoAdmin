@@ -1,25 +1,30 @@
-.container {
-  flex-direction: row;
+.login-flex-container {
   display: flex;
 }
-.container h1,
-p {
+.img-section {
+  width: 50%;
+}
+.img-section img {
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+}
+.form-section {
+  background-color: #f4f4f4;
+  width: 50%;
+  padding: 40px;
+}
+.form-section img {
+  width: 120px;
+  float: center;
+}
+.form-section h1,
+.form-section p {
   text-align: center;
 }
-.cover {
-  width: 50%;
-  align-items: center;
-}
-.cover img {
-  height: 400px;
-  width: 400px;
-  -webkit-filter: brightness(0) invert(1);
-  filter: brightness(0) invert(1);
-}
-.form-group {
-  width: 40%;
-  margin: 30px;
-  background-color: #fff;
-  padding: 15px;
-  border-radius: 5px;
+
+.form-section p {
+  line-height: 20px;
+  margin-bottom: 20px;
+  margin-top: 10px;
 }

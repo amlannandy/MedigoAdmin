@@ -6,7 +6,8 @@ div:focus {
 }
 label {
   display: block;
-  margin: 7.5px 0px;
+  margin: 7px 0px;
+  font-size: 0.8rem;
   color: #3b3c38;
 }
 input {
