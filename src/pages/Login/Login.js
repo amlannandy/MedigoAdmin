@@ -2,15 +2,12 @@ import React from 'react';
 import './style.css';
 
 import Logo from '../../images/logo.png';
-import LoginCover from '../../images/login.jpg';
 import CustomInput from '../../components/CustomInput/CustomInput';
 
 const Login = () => {
   return (
     <div className='login-flex-container'>
-      <div className='img-section'>
-        <img src={LoginCover} alt='' />
-      </div>
+      <div className='img-section'></div>
       <div className='form-section'>
         <h1>
           <img src={Logo} alt='' />
