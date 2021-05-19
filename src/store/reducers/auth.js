@@ -1,9 +1,14 @@
-import { LOGIN, AUTHENTICATE } from '../actions/auth';
+import {
+  LOGIN,
+  AUTHENTICATE,
+  SET_AUTH_ERROR,
+  TOGGLE_AUTH_LOADING,
+} from '../actions/auth';
 
 const initialState = {
   isAuthenticated: false,
   isLoading: false,
-  user: null,
+  userId: null,
   error: null,
 };
 
@@ -16,7 +21,19 @@ const reducer = (state = initialState, action) => {
         ...state,
         isAuthenticated: true,
         isLoading: false,
-        user: payload,
+        userId: payload,
+      };
+    case SET_AUTH_ERROR:
+      return {
+        ...state,
+        isLoading: false,
+        error: payload,
+      };
+    case TOGGLE_AUTH_LOADING:
+      return {
+        ...state,
+        isLoading: payload,
+        error: null,
       };
     default:
       return state;

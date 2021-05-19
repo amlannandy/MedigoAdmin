@@ -1,10 +1,12 @@
 import './style.css';
 import React, { useReducer } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Logo from '../../images/logo.png';
+import { login } from '../../store/actions/auth';
 import formReducer from '../../utils/formReducer';
 import CustomInput from '../../components/CustomInput/CustomInput';
+import { Redirect } from 'react-router';
 
 const initialLoginData = {
   email: '',
@@ -14,13 +16,18 @@ const initialLoginData = {
 const Login = () => {
   const dispatch = useDispatch();
   const [loginData, setLoginData] = useReducer(formReducer, initialLoginData);
+  const { isLoading, error, isAuthenticated } = useSelector(
+    state => state.auth
+  );
 
   const loginHandler = e => {
     e.preventDefault();
-    const { email, password } = loginData;
-    console.log(email);
-    console.log(password);
+    dispatch(login(loginData));
   };
+
+  if (!isLoading && isAuthenticated) {
+    return <Redirect to='/' />;
+  }
 
   return (
     <div className='login-flex-container'>
@@ -39,6 +46,7 @@ const Login = () => {
             value={loginData.email}
             label='Email'
             placeholder='Enter email'
+            disabled={isLoading}
             onChange={e =>
               setLoginData({ name: e.target.name, value: e.target.value })
             }
@@ -50,11 +58,17 @@ const Login = () => {
             value={loginData.password}
             label='Password'
             placeholder='Enter password'
+            disabled={isLoading}
             onChange={e =>
               setLoginData({ name: e.target.name, value: e.target.value })
             }
           />
-          <button type='submit' className='btn'>
+          {error ? (
+            <div className='error-message'>
+              <small>{error}</small>
+            </div>
+          ) : null}
+          <button disabled={isLoading} type='submit' className='btn'>
             Login
           </button>
         </form>

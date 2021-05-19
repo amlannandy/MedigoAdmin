@@ -33,3 +33,14 @@ body div {
 .link:hover {
   opacity: 70%;
 }
+
+/* Error Message */
+.error-message {
+  padding: 10px 7.5px;
+  margin: 20px 0px 10px 0px;
+  border-radius: 5px;
+  text-align: center;
+  background-color: #ff304f;
+  color: #fff;
+  font-weight: 500;
+}
