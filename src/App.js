@@ -11,8 +11,8 @@ const App = () => {
   return (
     <Provider store={store}>
       <Switch>
-        <Route path='/' exact component={Home} />
         <Route path='/login' exact component={Login} />
+        <Route path='/' component={Home} />
       </Switch>
     </Provider>
   );

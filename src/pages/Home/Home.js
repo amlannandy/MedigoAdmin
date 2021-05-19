@@ -1,10 +1,12 @@
 import React from 'react';
+import { Fragment } from 'react';
+import CustomNavbar from '../../components/CustomNavbar/CustomNavbar';
 
 const Home = () => {
   return (
-    <div>
-      <h1>Home</h1>
-    </div>
+    <Fragment>
+      <CustomNavbar />
+    </Fragment>
   );
 };
 
