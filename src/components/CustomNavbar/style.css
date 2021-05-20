@@ -10,6 +10,7 @@
   float: left;
   padding-top: 10px;
   padding-bottom: 10px;
+  padding-left: 10px;
 }
 .navbar ul {
   list-style: none;
@@ -28,4 +29,10 @@
 .nav-link.current {
   background-color: #444;
   color: #2cb978;
+}
+
+@media only screen and (max-width: 500px) {
+  .navbar ul li {
+    display: none;
+  }
 }

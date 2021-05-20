@@ -2,6 +2,8 @@ import './style.css';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import HamburgerMenu from '../HamburgerMenu/HamburgerMenu';
+
 const CustomNavbar = props => {
   console.log(props);
 
@@ -22,6 +24,7 @@ const CustomNavbar = props => {
           </Link>
         </li>
       </ul>
+      <HamburgerMenu />
     </nav>
   );
 };
