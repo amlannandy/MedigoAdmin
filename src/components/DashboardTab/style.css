@@ -12,6 +12,7 @@
   width: 30%;
   justify-content: space-between;
   cursor: pointer;
+  text-decoration: none;
 }
 .dashboard-tab:hover {
   opacity: 90%;
