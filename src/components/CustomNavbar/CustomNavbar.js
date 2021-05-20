@@ -15,9 +15,9 @@ const CustomNavbar = props => {
 
   return (
     <nav className='navbar container'>
-      <div>
+      <Link to='/'>
         <h1>MediGo</h1>
-      </div>
+      </Link>
       <ul>
         <li>
           <Link className='nav-link' to='/'>
