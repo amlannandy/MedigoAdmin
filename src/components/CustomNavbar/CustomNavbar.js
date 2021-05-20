@@ -5,8 +5,6 @@ import { Link } from 'react-router-dom';
 import HamburgerMenu from '../HamburgerMenu/HamburgerMenu';
 
 const CustomNavbar = props => {
-  console.log(props);
-
   return (
     <nav className='navbar container'>
       <div>

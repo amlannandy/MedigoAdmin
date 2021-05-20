@@ -8,7 +8,7 @@ import {
 const initialState = {
   isAuthenticated: false,
   isLoading: false,
-  userId: null,
+  user: null,
   error: null,
 };
 
@@ -21,7 +21,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         isAuthenticated: true,
         isLoading: false,
-        userId: payload,
+        user: payload,
       };
     case SET_AUTH_ERROR:
       return {

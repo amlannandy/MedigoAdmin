@@ -1,4 +1,5 @@
-import { auth } from '../../utils/firebase';
+import Doctor from '../../models/Doctor';
+import { auth, doctorsCollection } from '../../utils/firebase';
 
 export const LOGIN = 'LOGIN';
 export const AUTHENTICATE = 'AUTHENTICATE';
@@ -11,7 +12,22 @@ export const login = loginData => async dispatch => {
     const { email, password } = loginData;
     const res = await auth.signInWithEmailAndPassword(email, password);
     const userId = res.user.uid;
-    dispatch({ type: LOGIN, payload: userId });
+    const user = await getCurrentUserProfile(userId);
+    if (!user) {
+      dispatch({
+        type: SET_AUTH_ERROR,
+        payload: 'Please complete your registration in the Mobile application',
+      });
+      return;
+    }
+    if (!user.isVerified) {
+      dispatch({
+        type: SET_AUTH_ERROR,
+        payload: 'Please verify your account first',
+      });
+      return;
+    }
+    dispatch({ type: LOGIN, payload: user });
   } catch (error) {
     dispatch({ type: SET_AUTH_ERROR, payload: error.message });
   }
@@ -19,11 +35,41 @@ export const login = loginData => async dispatch => {
 
 export const getCurrentUser = () => async dispatch => {
   try {
-    const user = await auth.currentUser;
-    console.log(user);
-  } catch (error) {}
+    dispatch({ type: TOGGLE_AUTH_LOADING, payload: true });
+    auth.onAuthStateChanged(async firebaseUser => {
+      if (!firebaseUser) {
+        dispatch({ type: TOGGLE_AUTH_LOADING, payload: false });
+        return;
+      }
+      const userId = firebaseUser.uid;
+      const user = await getCurrentUserProfile(userId);
+      if (!user) {
+        dispatch({ type: TOGGLE_AUTH_LOADING, payload: false });
+        return;
+      }
+      if (!user.isVerified) {
+        dispatch({
+          type: SET_AUTH_ERROR,
+          payload: 'Please verify your account first',
+        });
+        return;
+      }
+      dispatch({ type: AUTHENTICATE, payload: user });
+    });
+  } catch (error) {
+    dispatch({ type: TOGGLE_AUTH_LOADING, payload: false });
+  }
 };
 
 export const setAuthError = message => dispatch => {
   dispatch({ type: SET_AUTH_ERROR, payload: message });
+};
+
+const getCurrentUserProfile = async userId => {
+  const res = await doctorsCollection.doc(userId).get();
+  const doc = res.data();
+  if (!doc) {
+    return null;
+  }
+  return new Doctor(userId, doc);
 };
