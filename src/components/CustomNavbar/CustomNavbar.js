@@ -21,6 +21,9 @@ const CustomNavbar = props => {
             Profile
           </Link>
         </li>
+        <li>
+          <button className='nav-link'>Logout</button>
+        </li>
       </ul>
       <HamburgerMenu />
     </nav>

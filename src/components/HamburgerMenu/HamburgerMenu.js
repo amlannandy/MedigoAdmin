@@ -12,6 +12,9 @@ const HamburgerMenu = () => {
       <Link className='nav-link' to='/profile'>
         Profile
       </Link>
+      <li>
+        <button className='nav-link'>Logout</button>
+      </li>
     </Menu>
   );
 };
