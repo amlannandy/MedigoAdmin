@@ -5,6 +5,7 @@ export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
 export const AUTHENTICATE = 'AUTHENTICATE';
 export const SET_AUTH_ERROR = 'SET_AUTH_ERROR';
+export const SET_AUTH_SUCCESS = 'SET_AUTH_SUCESS';
 export const TOGGLE_AUTH_LOADING = 'TOGGLE_AUTH_LOADING';
 
 export const login = loginData => async dispatch => {
@@ -66,6 +67,20 @@ export const logOut = () => async dispatch => {
   dispatch({ type: TOGGLE_AUTH_LOADING, payload: true });
   await auth.signOut();
   dispatch({ type: LOGOUT, payload: false });
+};
+
+export const sendPasswordResetMail = email => async dispatch => {
+  dispatch({ type: TOGGLE_AUTH_LOADING, payload: true });
+  try {
+    dispatch({ type: TOGGLE_AUTH_LOADING, payload: true });
+    await auth.sendPasswordResetEmail(email);
+    dispatch({
+      type: SET_AUTH_SUCCESS,
+      payload: 'Success! Please check your mail',
+    });
+  } catch (error) {
+    dispatch({ type: SET_AUTH_ERROR, payload: error.message });
+  }
 };
 
 export const setAuthError = message => dispatch => {

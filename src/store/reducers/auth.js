@@ -3,6 +3,7 @@ import {
   LOGOUT,
   AUTHENTICATE,
   SET_AUTH_ERROR,
+  SET_AUTH_SUCCESS,
   TOGGLE_AUTH_LOADING,
 } from '../actions/auth';
 
@@ -11,6 +12,7 @@ const initialState = {
   isLoading: true,
   user: null,
   error: null,
+  message: null,
 };
 
 const reducer = (state = initialState, action) => {
@@ -23,6 +25,12 @@ const reducer = (state = initialState, action) => {
         isAuthenticated: true,
         isLoading: false,
         user: payload,
+      };
+    case SET_AUTH_SUCCESS:
+      return {
+        ...state,
+        isLoading: false,
+        message: payload,
       };
     case SET_AUTH_ERROR:
       return {
