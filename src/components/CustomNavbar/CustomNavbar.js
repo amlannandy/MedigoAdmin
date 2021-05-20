@@ -1,10 +1,18 @@
 import './style.css';
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
+import { logOut } from '../../store/actions/auth';
 import HamburgerMenu from '../HamburgerMenu/HamburgerMenu';
 
 const CustomNavbar = props => {
+  const dispatch = useDispatch();
+
+  const logOutHandler = () => {
+    dispatch(logOut());
+  };
+
   return (
     <nav className='navbar container'>
       <div>
@@ -22,7 +30,9 @@ const CustomNavbar = props => {
           </Link>
         </li>
         <li>
-          <button className='nav-link'>Logout</button>
+          <button className='nav-link' onClick={logOutHandler}>
+            Logout
+          </button>
         </li>
       </ul>
       <HamburgerMenu />

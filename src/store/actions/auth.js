@@ -2,6 +2,7 @@ import Doctor from '../../models/Doctor';
 import { auth, doctorsCollection } from '../../utils/firebase';
 
 export const LOGIN = 'LOGIN';
+export const LOGOUT = 'LOGOUT';
 export const AUTHENTICATE = 'AUTHENTICATE';
 export const SET_AUTH_ERROR = 'SET_AUTH_ERROR';
 export const TOGGLE_AUTH_LOADING = 'TOGGLE_AUTH_LOADING';
@@ -59,6 +60,12 @@ export const getCurrentUser = () => async dispatch => {
   } catch (error) {
     dispatch({ type: TOGGLE_AUTH_LOADING, payload: false });
   }
+};
+
+export const logOut = () => async dispatch => {
+  dispatch({ type: TOGGLE_AUTH_LOADING, payload: true });
+  await auth.signOut();
+  dispatch({ type: LOGOUT, payload: false });
 };
 
 export const setAuthError = message => dispatch => {
