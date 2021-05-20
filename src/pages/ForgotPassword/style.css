@@ -1,0 +1,26 @@
+.forgot-password-container {
+  display: flex;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+}
+.forgot-password-form {
+  background-color: #f4f4f4;
+  border-radius: 5px;
+  padding: 30px;
+  width: 600px;
+}
+.forgot-password-form h1,
+.forgot-password-form p {
+  text-align: center;
+  margin-bottom: 10px;
+}
+.forgot-password-form p {
+  margin-bottom: 30px;
+}
+.btn-dark {
+  margin: 0px 0px;
+  display: block;
+  text-align: center;
+  text-decoration: none;
+}

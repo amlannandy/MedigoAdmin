@@ -1,4 +1,6 @@
 import './style.css';
+import { Redirect } from 'react-router';
+import { Link } from 'react-router-dom';
 import React, { useReducer } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -6,7 +8,6 @@ import Logo from '../../images/logo.png';
 import { login } from '../../store/actions/auth';
 import formReducer from '../../utils/formReducer';
 import CustomInput from '../../components/CustomInput/CustomInput';
-import { Redirect } from 'react-router';
 
 const initialLoginData = {
   email: '',
@@ -74,9 +75,9 @@ const Login = () => {
         </form>
         <p className='lead'>
           Forgot your Password? Reset it{' '}
-          <a className='link' href='#'>
+          <Link className='link' to='/forgot-password'>
             here
-          </a>
+          </Link>
         </p>
       </div>
     </div>

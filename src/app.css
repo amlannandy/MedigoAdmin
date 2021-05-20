@@ -28,6 +28,9 @@ body div {
 .btn:hover {
   opacity: 90%;
 }
+.btn-dark {
+  background-color: #444;
+}
 
 /* Link */
 .link {
