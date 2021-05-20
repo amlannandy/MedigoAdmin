@@ -31,7 +31,7 @@
   color: #2cb978;
 }
 
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 600px) {
   .navbar ul li {
     display: none;
   }
