@@ -3,6 +3,7 @@ import { Fragment } from 'react';
 import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router';
 import CustomNavbar from '../../components/CustomNavbar/CustomNavbar';
+import DashboardTab from '../../components/DashboardTab/DashboardTab';
 
 const Home = () => {
   const { isLoading, isAuthenticated } = useSelector(state => state.auth);
@@ -14,6 +15,9 @@ const Home = () => {
   return (
     <Fragment>
       <CustomNavbar />
+      <div className='container bg-light'>
+        <DashboardTab />
+      </div>
     </Fragment>
   );
 };
