@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { Redirect, Route, Switch } from 'react-router';
 
 import Clinic from '../Clinic/Clinic';
+import Profile from '../Profile/Profile';
 import Patients from '../Patients/Patients';
 import Dashboard from '../Dashboard/Dashboard';
 import Appointments from '../Appointments/Appointments';
@@ -20,15 +21,18 @@ const Home = ({ location }) => {
   return (
     <Fragment>
       <CustomNavbar url={location.pathname} />
-      <div className='container bg-light'>
-        <DashboardTab url={location.pathname} />
-        <Switch>
-          <Route exact path='/' component={Dashboard} />
-          <Route path='/clinic/:id' component={Clinic} />
-          <Route path='/patients/:id' component={Patients} />
-          <Route path='/appointments' component={Appointments} />
-        </Switch>
-      </div>
+      <Switch>
+        <Route path='/profile' component={Profile} />
+        <div className='container bg-light'>
+          <DashboardTab url={location.pathname} />
+          <Switch>
+            <Route exact path='/' component={Dashboard} />
+            <Route path='/clinic/:id' component={Clinic} />
+            <Route path='/patients/:id' component={Patients} />
+            <Route path='/appointments' component={Appointments} />
+          </Switch>
+        </div>
+      </Switch>
     </Fragment>
   );
 };
