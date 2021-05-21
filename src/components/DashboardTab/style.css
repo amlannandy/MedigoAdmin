@@ -13,24 +13,18 @@
   justify-content: space-between;
   cursor: pointer;
   text-decoration: none;
+  background-color: #444;
+  color: #fff;
+}
+.dashboard-tab-active {
+  color: #fff;
+  background-color: #2cb978;
 }
 .dashboard-tab:hover {
   opacity: 90%;
 }
 .dashboard-tab i {
   margin-left: 15px;
-}
-.clinic-tab {
-  background-color: #d72323;
-  color: #fff;
-}
-.appointments-tab {
-  background-color: #eac100;
-  color: #fff;
-}
-.patients-tab {
-  background-color: #0da574;
-  color: #fff;
 }
 @media only screen and (max-width: 600px) {
   .dashboard-tab {

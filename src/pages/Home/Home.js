@@ -10,7 +10,7 @@ import Appointments from '../Appointments/Appointments';
 import CustomNavbar from '../../components/CustomNavbar/CustomNavbar';
 import DashboardTab from '../../components/DashboardTab/DashboardTab';
 
-const Home = () => {
+const Home = ({ location }) => {
   const { isLoading, isAuthenticated } = useSelector(state => state.auth);
 
   if (!isLoading && !isAuthenticated) {
@@ -19,9 +19,9 @@ const Home = () => {
 
   return (
     <Fragment>
-      <CustomNavbar />
+      <CustomNavbar url={location.pathname} />
       <div className='container bg-light'>
-        <DashboardTab />
+        <DashboardTab url={location.pathname} />
         <Switch>
           <Route exact path='/' component={Dashboard} />
           <Route path='/clinic/:id' component={Clinic} />

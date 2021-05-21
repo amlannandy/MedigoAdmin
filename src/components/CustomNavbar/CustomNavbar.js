@@ -1,17 +1,27 @@
 import './style.css';
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import { logOut } from '../../store/actions/auth';
 import HamburgerMenu from '../HamburgerMenu/HamburgerMenu';
 
-const CustomNavbar = props => {
+const CustomNavbar = ({ url }) => {
   const dispatch = useDispatch();
 
   const logOutHandler = () => {
     dispatch(logOut());
   };
+
+  let homeClass = 'nav-link';
+  if (url == '/') {
+    homeClass += ' current';
+  }
+
+  let profileClass = 'nav-link';
+  if (url.startsWith('/profile')) {
+    profileClass += ' current';
+  }
 
   return (
     <nav className='navbar container'>
@@ -20,12 +30,12 @@ const CustomNavbar = props => {
       </Link>
       <ul>
         <li>
-          <Link className='nav-link' to='/'>
+          <Link className={homeClass} to='/'>
             Home
           </Link>
         </li>
         <li>
-          <Link className='nav-link' to='/profile'>
+          <Link className={profileClass} to='/profile'>
             Profile
           </Link>
         </li>
