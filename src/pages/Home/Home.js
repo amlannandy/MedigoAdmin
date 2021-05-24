@@ -23,7 +23,7 @@ const Home = ({ location }) => {
       <CustomNavbar url={location.pathname} />
       <Switch>
         <Route path='/profile' component={Profile} />
-        <div className='container bg-light'>
+        <div className='container'>
           <DashboardTab url={location.pathname} />
           <Switch>
             <Route exact path='/' component={Dashboard} />

@@ -1,6 +1,7 @@
 import './style.css';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import ProfileNotFound from '../../components/ProfileNotFound/ProfileNotFound';
 
 const Profile = () => {
   const { user, isLoading } = useSelector(state => state.auth);
@@ -10,7 +11,7 @@ const Profile = () => {
   }
 
   if (!user) {
-    return <h1>Profile not found</h1>;
+    return <ProfileNotFound />;
   }
 
   return (

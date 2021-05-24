@@ -64,8 +64,7 @@ body div {
   font-weight: 500;
 }
 
-/* Light Background */
-.bg-light {
-  background-color: #f4f4f4;
-  height: 100%;
+/* Typography */
+.text-primary {
+  color: #2cb978;
 }
