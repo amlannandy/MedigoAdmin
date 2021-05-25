@@ -1,13 +1,15 @@
 import './style.css';
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+
+import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 import ProfileNotFound from '../../components/ProfileNotFound/ProfileNotFound';
 
 const Profile = () => {
   const { user, isLoading } = useSelector(state => state.auth);
 
   if (isLoading) {
-    return <h1>Loading</h1>;
+    return <LoadingSpinner />;
   }
 
   if (!user) {

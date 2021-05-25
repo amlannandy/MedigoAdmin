@@ -14,7 +14,7 @@ const CustomNavbar = ({ url }) => {
   };
 
   let homeClass = 'nav-link';
-  if (url == '/') {
+  if (url === '/') {
     homeClass += ' current';
   }
 
