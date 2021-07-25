@@ -1,0 +1,14 @@
+.login-container {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  height: 100vh !important;
+}
+.login-header {
+  margin-bottom: 30px !important;
+}
+.login-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
