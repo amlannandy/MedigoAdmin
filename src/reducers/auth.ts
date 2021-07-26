@@ -5,6 +5,9 @@ import {
   LOAD_USER_REQUEST,
   LOAD_USER_SUCCESS,
   LOAD_USER_FAILURE,
+  LOGOUT_REQUEST,
+  LOGOUT_SUCCESS,
+  LOGOUT_FAILURE,
 } from '../constants/index';
 
 const initialState = {
@@ -26,6 +29,7 @@ const auth = (state: object = initialState, action: any) => {
       return {
         ...state,
         authActions: {
+          ...(state as any).authActions,
           isAuthenticating: true,
         },
       };
@@ -34,6 +38,7 @@ const auth = (state: object = initialState, action: any) => {
         ...state,
         user: payload,
         authActions: {
+          ...(state as any).authActions,
           isAuthenticating: false,
           isAuthenticated: true,
         },
@@ -42,14 +47,17 @@ const auth = (state: object = initialState, action: any) => {
       return {
         ...state,
         authActions: {
+          ...(state as any).authActions,
           isAuthenticating: false,
           error: payload,
         },
       };
+    case LOGOUT_REQUEST:
     case LOAD_USER_REQUEST:
       return {
         ...state,
         authActions: {
+          ...(state as any).authActions,
           isLoading: true,
         },
       };
@@ -58,6 +66,7 @@ const auth = (state: object = initialState, action: any) => {
         ...state,
         user: payload,
         authActions: {
+          ...(state as any).authActions,
           isLoading: false,
           isInitialized: true,
           isAuthenticated: true,
@@ -67,9 +76,28 @@ const auth = (state: object = initialState, action: any) => {
       return {
         ...state,
         authActions: {
+          ...(state as any).authActions,
           isLoading: false,
           isInitialized: true,
           isAuthenticated: false,
+        },
+      };
+    case LOGOUT_SUCCESS:
+      return {
+        ...state,
+        authActions: {
+          ...(state as any).authActions,
+          isLoading: false,
+          isAuthenticated: false,
+        },
+      };
+    case LOGOUT_FAILURE:
+      return {
+        ...state,
+        authActions: {
+          ...(state as any).authActions,
+          isLoading: false,
+          error: payload,
         },
       };
     default:

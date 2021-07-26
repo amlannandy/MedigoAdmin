@@ -4,6 +4,9 @@ import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
+  LOGOUT_REQUEST,
+  LOGOUT_SUCCESS,
+  LOGOUT_FAILURE,
   LOAD_USER_REQUEST,
   LOAD_USER_SUCCESS,
   LOAD_USER_FAILURE,
@@ -67,5 +70,24 @@ export const loadUser = (user?: firebase.User) => {
   }
   function failure() {
     return { type: LOAD_USER_FAILURE };
+  }
+};
+
+export const logout = () => {
+  return (dispatch: any) => {
+    dispatch(request());
+    auth
+      .signOut()
+      .then(() => dispatch(success()))
+      .catch(err => dispatch(failure(err.message)));
+  };
+  function request() {
+    return { type: LOGOUT_REQUEST };
+  }
+  function success() {
+    return { type: LOGOUT_SUCCESS };
+  }
+  function failure(error: string) {
+    return { type: LOGOUT_FAILURE, payload: error };
   }
 };

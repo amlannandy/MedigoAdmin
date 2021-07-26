@@ -4,15 +4,23 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Container, Menu, Dropdown, Comment, Image } from 'semantic-ui-react';
 
+import { logout } from '../../actions/index';
+
 interface NavbarProps {
   user: {
     name: string;
     imageUrl: string;
     email: string;
   };
+  logout: () => void;
 }
 
 class Navbar extends React.Component<NavbarProps> {
+  handleLogout = () => {
+    const { logout } = this.props;
+    logout();
+  };
+
   render() {
     const { user } = this.props;
 
@@ -55,7 +63,11 @@ class Navbar extends React.Component<NavbarProps> {
                   as={Link}
                   to='/settings'
                 />
-                <Dropdown.Item icon='sign-out' text='Log out' />
+                <Dropdown.Item
+                  icon='sign-out'
+                  text='Log out'
+                  onClick={this.handleLogout}
+                />
               </Dropdown.Menu>
             </Dropdown>
           </Menu.Menu>
@@ -71,4 +83,12 @@ const mapStateToProps = (state: any) => {
   };
 };
 
-export default connect(mapStateToProps)(Navbar);
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    logout: () => {
+      return dispatch(logout());
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);
