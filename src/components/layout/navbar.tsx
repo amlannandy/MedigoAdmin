@@ -1,7 +1,8 @@
 import React from 'react';
 import './css/navbar.css';
 import { connect } from 'react-redux';
-import { Menu, Dropdown, Comment, Image } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
+import { Container, Menu, Dropdown, Comment, Image } from 'semantic-ui-react';
 
 interface NavbarProps {
   user: {
@@ -17,36 +18,48 @@ class Navbar extends React.Component<NavbarProps> {
 
     return (
       <Menu className='navbar-container' attached='top' color='blue' inverted>
-        <Menu.Item header active>
-          MediGo
-        </Menu.Item>
-        <Menu.Menu position='right'>
-          {user ? (
-            <Menu.Item className='nav-user-section'>
-              <Comment.Avatar
-                src={user.imageUrl}
-                className='nav-user-img'
-                as={Image}
-                avatar
-              />
-              <Comment>
-                <Comment.Content>
-                  <Comment.Author>
-                    <strong>{user.name}</strong>
-                  </Comment.Author>
-                  <Comment.Text>{user.email}</Comment.Text>
-                </Comment.Content>
-              </Comment>
-            </Menu.Item>
-          ) : null}
-          <Dropdown item icon='angle down' className='nav-dropdown-icon'>
-            <Dropdown.Menu>
-              <Dropdown.Item icon='user' text='View Profile' />
-              <Dropdown.Item icon='settings' text='Account Settings' />
-              <Dropdown.Item icon='sign-out' text='Log out' />
-            </Dropdown.Menu>
-          </Dropdown>
-        </Menu.Menu>
+        <Container>
+          <Menu.Item header active as={Link} to='/'>
+            MediGo
+          </Menu.Item>
+          <Menu.Menu position='right'>
+            {user ? (
+              <Menu.Item className='nav-user-section'>
+                <Comment.Avatar
+                  src={user.imageUrl}
+                  className='nav-user-img'
+                  as={Image}
+                  avatar
+                />
+                <Comment>
+                  <Comment.Content>
+                    <Comment.Author>
+                      <strong>{user.name}</strong>
+                    </Comment.Author>
+                    <Comment.Text>{user.email}</Comment.Text>
+                  </Comment.Content>
+                </Comment>
+              </Menu.Item>
+            ) : null}
+            <Dropdown item icon='angle down' className='nav-dropdown-icon'>
+              <Dropdown.Menu>
+                <Dropdown.Item
+                  icon='user'
+                  text='View Profile'
+                  as={Link}
+                  to='/profile'
+                />
+                <Dropdown.Item
+                  icon='settings'
+                  text='Account Settings'
+                  as={Link}
+                  to='/settings'
+                />
+                <Dropdown.Item icon='sign-out' text='Log out' />
+              </Dropdown.Menu>
+            </Dropdown>
+          </Menu.Menu>
+        </Container>
       </Menu>
     );
   }
@@ -58,8 +71,4 @@ const mapStateToProps = (state: any) => {
   };
 };
 
-const mapDispatchToProps = (dispatch: any) => {
-  return {};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Navbar);
+export default connect(mapStateToProps)(Navbar);

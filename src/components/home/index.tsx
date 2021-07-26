@@ -1,40 +1,49 @@
+import './css/index.css';
 import React from 'react';
-import { connect } from 'react-redux';
-import { Dimmer, Loader } from 'semantic-ui-react';
+import Loadable from 'react-loadable';
+import { Route, Switch } from 'react-router-dom';
+import { Container, Dimmer, Loader } from 'semantic-ui-react';
 
 import Navbar from '../layout/navbar';
 
-interface IndexProps {
-  authActions: {
-    isLoading: boolean;
-  };
-}
+const Loading = () => {
+  return (
+    <Dimmer active>
+      <Loader indeterminate>Loading...</Loader>
+    </Dimmer>
+  );
+};
 
-class Index extends React.Component<IndexProps> {
+const Dashboard = Loadable({
+  loader: () => import('../dashboard/index'),
+  loading: Loading,
+});
+
+const Profile = Loadable({
+  loader: () => import('../profile/index'),
+  loading: Loading,
+});
+
+const Settings = Loadable({
+  loader: () => import('../settings/index'),
+  loading: Loading,
+});
+
+class Index extends React.Component {
   render() {
-    const {
-      authActions: { isLoading },
-    } = this.props;
-
     return (
       <React.Fragment>
-        {isLoading ? (
-          <Dimmer active>
-            <Loader indeterminate>Please wait a minute...</Loader>
-          </Dimmer>
-        ) : null}
-        <React.Fragment>
-          <Navbar />
-        </React.Fragment>
+        <Navbar />
+        <Container className='home-container'>
+          <Switch>
+            <Route path='/settings' component={Settings} />
+            <Route path='/profile' component={Profile} />
+            <Route path='/' component={Dashboard} />
+          </Switch>
+        </Container>
       </React.Fragment>
     );
   }
 }
 
-const mapStateToProps = (state: any) => {
-  return {
-    authActions: state.auth.authActions,
-  };
-};
-
-export default connect(mapStateToProps)(Index);
+export default Index;
