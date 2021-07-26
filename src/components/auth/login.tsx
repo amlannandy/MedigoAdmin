@@ -35,16 +35,13 @@ interface LoginState {
 }
 
 class Login extends React.Component<LoginProps, LoginState> {
-  constructor(props: LoginProps) {
-    super(props);
-    this.state = {
-      email: '',
-      password: '',
-      emailError: '',
-      passwordError: '',
-      isFormValid: false,
-    };
-  }
+  state = {
+    email: '',
+    password: '',
+    emailError: '',
+    passwordError: '',
+    isFormValid: false,
+  };
 
   handleOnChange = (e: any) => {
     let newState = { [e.target.name]: e.target.value } as Pick<

@@ -1,9 +1,12 @@
-import { auth } from '../utils/firebase';
+import { auth, firebase, doctorsCollection } from '../utils/firebase';
 
 import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
+  LOAD_USER_REQUEST,
+  LOAD_USER_SUCCESS,
+  LOAD_USER_FAILURE,
 } from '../constants/index';
 
 export const login = (
@@ -17,7 +20,7 @@ export const login = (
       .signInWithEmailAndPassword(email, password)
       .then(res => {
         console.log(res);
-        success();
+        dispatch(success());
         callback();
       })
       .catch(err => {
@@ -32,5 +35,33 @@ export const login = (
   }
   function failure(error: string) {
     return { type: LOGIN_FAILURE, payload: error };
+  }
+};
+
+export const loadUser = (user: firebase.User) => {
+  return (dispatch: any) => {
+    dispatch(request());
+    const userId = user.uid;
+    doctorsCollection
+      .doc(userId)
+      .get()
+      .then(snapshot => {
+        if (snapshot.exists) {
+          const userDoc = snapshot.data() as object;
+          dispatch(success(userDoc));
+        } else {
+          dispatch(failure());
+        }
+      })
+      .catch(() => dispatch(failure()));
+  };
+  function request() {
+    return { type: LOAD_USER_REQUEST };
+  }
+  function success(data: object) {
+    return { type: LOAD_USER_SUCCESS, payload: data };
+  }
+  function failure() {
+    return { type: LOAD_USER_FAILURE };
   }
 };

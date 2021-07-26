@@ -23,6 +23,7 @@ const clinicsCollection = db.collection('clinics');
 const appointmentsCollection = db.collection('appointments');
 
 export {
+  firebase,
   auth,
   db,
   doctorsCollection,
