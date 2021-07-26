@@ -38,9 +38,13 @@ export const login = (
   }
 };
 
-export const loadUser = (user: firebase.User) => {
+export const loadUser = (user?: firebase.User) => {
   return (dispatch: any) => {
     dispatch(request());
+    if (user == null) {
+      dispatch(failure());
+      return;
+    }
     const userId = user.uid;
     doctorsCollection
       .doc(userId)
@@ -48,7 +52,7 @@ export const loadUser = (user: firebase.User) => {
       .then(snapshot => {
         if (snapshot.exists) {
           const userDoc = snapshot.data() as object;
-          dispatch(success(userDoc));
+          dispatch(success({ ...userDoc, id: userId }));
         } else {
           dispatch(failure());
         }

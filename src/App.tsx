@@ -8,11 +8,9 @@ import { loadUser } from './actions/index';
 
 export default class App extends React.Component {
   componentDidMount() {
-    auth.onAuthStateChanged(user => {
-      if (user) {
-        store.dispatch(loadUser(user) as any);
-      }
-    });
+    auth.onAuthStateChanged(user =>
+      store.dispatch(loadUser(user as any) as any)
+    );
   }
 
   render() {

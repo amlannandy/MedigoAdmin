@@ -2,6 +2,7 @@ import React from 'react';
 import Loadable from 'react-loadable';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
+import PrivateRoute from '../utils/privateRoute';
 import LoadingSpinner from './layout/loadingSpinner';
 
 const Loading = () => {
@@ -31,7 +32,7 @@ export default class Index extends React.Component {
           <Switch>
             <Route path='/login' component={Login} />
             <Route path='/register' component={Register} />
-            <Route path='/' component={Landing} />
+            <PrivateRoute path='/' component={Landing} />
           </Switch>
         </React.Fragment>
       </BrowserRouter>
