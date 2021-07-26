@@ -1,9 +1,8 @@
 import thunk from 'redux-thunk';
-import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
-// Combine each reducer here
-const rootReducer = combineReducers({});
+import rootReducer from '../reducers/index';
 
 const initialState = {};
 
