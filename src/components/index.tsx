@@ -14,8 +14,8 @@ const Loading = () => {
   );
 };
 
-const Dashboard = Loadable({
-  loader: () => import('./dashboard/index'),
+const Home = Loadable({
+  loader: () => import('./home/index'),
   loading: Loading,
 });
 
@@ -37,7 +37,7 @@ export default class Index extends React.Component {
           <Switch>
             <GuestRoute path='/login' component={Login} />
             <GuestRoute path='/register' component={Register} />
-            <PrivateRoute path='/' component={Dashboard} />
+            <PrivateRoute path='/' component={Home} />
           </Switch>
         </React.Fragment>
       </BrowserRouter>

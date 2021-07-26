@@ -16,7 +16,7 @@ class Navbar extends React.Component<NavbarProps> {
     const { user } = this.props;
 
     return (
-      <Menu className='navbar-container' attached='top' color='blue'>
+      <Menu className='navbar-container' attached='top' color='blue' inverted>
         <Menu.Item header active>
           MediGo
         </Menu.Item>
@@ -39,7 +39,7 @@ class Navbar extends React.Component<NavbarProps> {
               </Comment>
             </Menu.Item>
           ) : null}
-          <Dropdown item text='More' iconPosition='left'>
+          <Dropdown item icon='angle down' className='nav-dropdown-icon'>
             <Dropdown.Menu>
               <Dropdown.Item icon='user' text='View Profile' />
               <Dropdown.Item icon='settings' text='Account Settings' />
