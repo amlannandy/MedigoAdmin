@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Menu, Icon } from 'semantic-ui-react';
 
 class Sidebar extends React.Component {
@@ -17,6 +18,8 @@ class Sidebar extends React.Component {
         <Menu.Item
           name='home'
           color='blue'
+          as={Link}
+          to='/'
           active={activeItem === 'home'}
           onClick={this.handleItemClick}>
           <Icon name='home' />
@@ -25,6 +28,8 @@ class Sidebar extends React.Component {
         <Menu.Item
           name='patients'
           color='blue'
+          as={Link}
+          to='/patients'
           active={activeItem === 'patients'}
           onClick={this.handleItemClick}>
           <Icon name='users' />
@@ -33,6 +38,8 @@ class Sidebar extends React.Component {
         <Menu.Item
           name='appointments'
           color='blue'
+          as={Link}
+          to='/appointments'
           active={activeItem === 'appointments'}
           onClick={this.handleItemClick}>
           <Icon name='history' />
