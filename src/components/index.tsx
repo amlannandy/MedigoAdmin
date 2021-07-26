@@ -1,16 +1,21 @@
 import React from 'react';
 import Loadable from 'react-loadable';
+import { Dimmer, Loader } from 'semantic-ui-react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
+import GuestRoute from '../utils/guestRoute';
 import PrivateRoute from '../utils/privateRoute';
-import LoadingSpinner from './layout/loadingSpinner';
 
 const Loading = () => {
-  return <LoadingSpinner />;
+  return (
+    <Dimmer active>
+      <Loader indeterminate>Loading...</Loader>
+    </Dimmer>
+  );
 };
 
-const Landing = Loadable({
-  loader: () => import('./auth/landing'),
+const Dashboard = Loadable({
+  loader: () => import('./dashboard/index'),
   loading: Loading,
 });
 
@@ -30,9 +35,9 @@ export default class Index extends React.Component {
       <BrowserRouter>
         <React.Fragment>
           <Switch>
-            <Route path='/login' component={Login} />
-            <Route path='/register' component={Register} />
-            <PrivateRoute path='/' component={Landing} />
+            <GuestRoute path='/login' component={Login} />
+            <GuestRoute path='/register' component={Register} />
+            <PrivateRoute path='/' component={Dashboard} />
           </Switch>
         </React.Fragment>
       </BrowserRouter>

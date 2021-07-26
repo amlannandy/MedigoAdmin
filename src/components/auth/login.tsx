@@ -19,6 +19,7 @@ import { isEmail } from '../../utils/helpers';
 
 interface LoginProps extends RouteComponentProps<any> {
   authActions: {
+    isLoading: boolean;
     isAuthenticated: boolean;
     isAuthenticating: boolean;
     error: string;
@@ -84,7 +85,7 @@ class Login extends React.Component<LoginProps, LoginState> {
 
   render() {
     const {
-      authActions: { isAuthenticated, isAuthenticating, error },
+      authActions: { isLoading, isAuthenticating, error },
     } = this.props;
 
     return (
@@ -94,88 +95,96 @@ class Login extends React.Component<LoginProps, LoginState> {
             <Loader indeterminate>Authenticating..</Loader>
           </Dimmer>
         ) : null}
-        <Segment placeholder padded className='login-container'>
-          <Grid columns={2} stretched>
-            <Grid.Column>
-              <Header
-                textAlign='center'
-                as='h1'
-                className='login-header'
-                color='blue'>
-                MediGo
-                <Header.Subheader>Revolutionizing Healthcare</Header.Subheader>
-              </Header>
-              <List size='large' className='login-list'>
-                <List.Item
-                  icon='users'
-                  content='Manage your patient records in one place'
-                />
-                <List.Item
-                  icon='hospital'
-                  content='Organize your clinic records'
-                />
-                <List.Item
-                  icon='mail'
-                  content='Connect with patients seamlessly'
-                />
-                <List.Item
-                  icon='history'
-                  content='Schedule Appointments with a single click'
-                />
-              </List>
-            </Grid.Column>
-            <Grid.Column>
-              <Header as='h2' textAlign='center' className='login-header'>
-                Login
-                <Header.Subheader>
-                  Manage your clinic and patients efficiently
-                </Header.Subheader>
-              </Header>
-              {error ? (
-                <Message negative>
-                  <Message.Header>Error</Message.Header>
-                  <p>{error}</p>
-                </Message>
-              ) : null}
-              <Form>
-                <Form.Input
-                  fluid
-                  name='email'
-                  value={this.state.email}
-                  error={this.state.emailError ? this.state.emailError : null}
-                  icon='mail'
-                  iconPosition='left'
-                  placeholder='Email'
-                  onChange={this.handleOnChange}
-                />
-                <Form.Input
-                  fluid
-                  name='password'
-                  value={this.state.password}
-                  error={
-                    this.state.passwordError ? this.state.passwordError : null
-                  }
-                  type='password'
-                  icon='lock'
-                  iconPosition='left'
-                  placeholder='Password'
-                  onChange={this.handleOnChange}
-                />
-                <Form.Button
-                  primary
-                  fluid
-                  onClick={this.handleLogin}
-                  disabled={!this.state.isFormValid}>
+        {isLoading ? (
+          <Dimmer active>
+            <Loader indeterminate>Please wait..</Loader>
+          </Dimmer>
+        ) : (
+          <Segment placeholder padded className='login-container'>
+            <Grid columns={2} stretched>
+              <Grid.Column>
+                <Header
+                  textAlign='center'
+                  as='h1'
+                  className='login-header'
+                  color='blue'>
+                  MediGo
+                  <Header.Subheader>
+                    Revolutionizing Healthcare
+                  </Header.Subheader>
+                </Header>
+                <List size='large' className='login-list'>
+                  <List.Item
+                    icon='users'
+                    content='Manage your patient records in one place'
+                  />
+                  <List.Item
+                    icon='hospital'
+                    content='Organize your clinic records'
+                  />
+                  <List.Item
+                    icon='mail'
+                    content='Connect with patients seamlessly'
+                  />
+                  <List.Item
+                    icon='history'
+                    content='Schedule Appointments with a single click'
+                  />
+                </List>
+              </Grid.Column>
+              <Grid.Column>
+                <Header as='h2' textAlign='center' className='login-header'>
                   Login
-                </Form.Button>
-                <Divider horizontal>Or</Divider>
-                <Form.Button fluid>
-                  <Link to='/register'>Create a New Account</Link>
-                </Form.Button>
-              </Form>
-            </Grid.Column>
-          </Grid>
-        </Segment>
+                  <Header.Subheader>
+                    Manage your clinic and patients efficiently
+                  </Header.Subheader>
+                </Header>
+                {error ? (
+                  <Message negative>
+                    <Message.Header>Error</Message.Header>
+                    <p>{error}</p>
+                  </Message>
+                ) : null}
+                <Form>
+                  <Form.Input
+                    fluid
+                    name='email'
+                    value={this.state.email}
+                    error={this.state.emailError ? this.state.emailError : null}
+                    icon='mail'
+                    iconPosition='left'
+                    placeholder='Email'
+                    onChange={this.handleOnChange}
+                  />
+                  <Form.Input
+                    fluid
+                    name='password'
+                    value={this.state.password}
+                    error={
+                      this.state.passwordError ? this.state.passwordError : null
+                    }
+                    type='password'
+                    icon='lock'
+                    iconPosition='left'
+                    placeholder='Password'
+                    onChange={this.handleOnChange}
+                  />
+                  <Form.Button
+                    primary
+                    fluid
+                    onClick={this.handleLogin}
+                    disabled={!this.state.isFormValid}>
+                    Login
+                  </Form.Button>
+                  <Divider horizontal>Or</Divider>
+                  <Form.Button fluid>
+                    <Link to='/register'>Create a New Account</Link>
+                  </Form.Button>
+                </Form>
+              </Grid.Column>
+            </Grid>
+          </Segment>
+        )}
       </React.Fragment>
     );
   }
