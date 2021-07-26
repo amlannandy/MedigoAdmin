@@ -1,0 +1,12 @@
+.navbar-container {
+  padding: 10px 50px;
+  margin: 0;
+  border-radius: 0 !important;
+}
+.nav-user-section {
+  margin: 0 !important;
+  padding: 0 20px !important;
+}
+.nav-user-img {
+  margin-right: 10px !important;
+}
