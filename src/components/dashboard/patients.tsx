@@ -1,6 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Loader, Table, Button, Icon, Confirm } from 'semantic-ui-react';
+import {
+  Loader,
+  Table,
+  Button,
+  Icon,
+  Confirm,
+  Message,
+} from 'semantic-ui-react';
 
 import { AuthState } from '../../reducers/auth';
 import { PatientsState } from '../../reducers/patients';
@@ -99,6 +106,18 @@ class Patients extends React.Component<PatientProp, PatientState> {
                 ))}
               </Table.Body>
             </Table>
+            {patients.patients.length === 0 ? (
+              <Message warning>
+                <Message.Header>Oops!</Message.Header>
+                <p>No patient records found</p>
+              </Message>
+            ) : null}
+            {patients.patientActions.error ? (
+              <Message negative>
+                <Message.Header>Error</Message.Header>
+                <p>{patients.patientActions.error}</p>
+              </Message>
+            ) : null}
           </React.Fragment>
         )}
         <Confirm
