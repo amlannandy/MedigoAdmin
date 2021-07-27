@@ -1,7 +1,10 @@
 import {
   FETCH_PATIENTS_REQUEST,
   FETCH_PATIENTS_SUCCESS,
-  FETCH_APPOINTMENTS_FAILURE,
+  FETCH_PATIENTS_FAILURE,
+  DELETE_PATIENT_REQUEST,
+  DELETE_PATIENT_SUCCESS,
+  DELETE_PATIENT_FAILURE,
 } from '../constants/index';
 
 interface PatientState {
@@ -27,6 +30,7 @@ export interface PatientsState {
   patients: Array<PatientState>;
   patientActions: {
     isFetching: boolean;
+    isDeleting: boolean;
     error: string;
     message: string;
   };
@@ -37,6 +41,7 @@ const initialState: PatientsState = {
   patients: [],
   patientActions: {
     isFetching: false,
+    isDeleting: false,
     error: '',
     message: '',
   },
@@ -62,12 +67,37 @@ const reducer = (state: PatientsState = initialState, action: any) => {
           isFetching: false,
         },
       };
-    case FETCH_APPOINTMENTS_FAILURE:
+    case FETCH_PATIENTS_FAILURE:
       return {
         ...state,
         patientActions: {
           ...state.patientActions,
           isFetching: false,
+          error: payload,
+        },
+      };
+    case DELETE_PATIENT_REQUEST:
+      return {
+        ...state,
+        patientActions: {
+          ...state.patientActions,
+          isDeleting: true,
+        },
+      };
+    case DELETE_PATIENT_SUCCESS:
+      return {
+        ...state,
+        patientActions: {
+          ...state.patientActions,
+          isDeleting: false,
+        },
+      };
+    case DELETE_PATIENT_FAILURE:
+      return {
+        ...state,
+        patientActions: {
+          ...state.patientActions,
+          isDeleting: false,
           error: payload,
         },
       };

@@ -1,14 +1,53 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Loader, Table, Button, Icon } from 'semantic-ui-react';
+import { Loader, Table, Button, Icon, Confirm } from 'semantic-ui-react';
 
+import { AuthState } from '../../reducers/auth';
 import { PatientsState } from '../../reducers/patients';
+import { fetchPatients, deletePatient } from '../../actions/index';
 
-interface PatientState {
+interface PatientProp {
+  auth: AuthState;
   patients: PatientsState;
+  fetchPatients: (id: string) => void;
+  deletePatient: (id: string, callback: () => void) => void;
 }
 
-class Patients extends React.Component<PatientState> {
+interface PatientState {
+  selectedPatientId: string;
+  showDeletePatientModal: boolean;
+}
+
+class Patients extends React.Component<PatientProp, PatientState> {
+  state = {
+    selectedPatientId: '',
+    showDeletePatientModal: false,
+  };
+
+  showDeletePatientConfirmation = (patientId: string) => {
+    this.setState({
+      selectedPatientId: patientId,
+      showDeletePatientModal: true,
+    });
+  };
+
+  handleDeletePatient = () => {
+    const { deletePatient } = this.props;
+    this.setState({ showDeletePatientModal: false }, () => {
+      deletePatient(this.state.selectedPatientId, this.deletePatientCallback);
+    });
+  };
+
+  deletePatientCallback = () => {
+    const {
+      auth: {
+        user: { id },
+      },
+      fetchPatients,
+    } = this.props;
+    fetchPatients(id);
+  };
+
   render() {
     const { patients } = this.props;
 
@@ -16,6 +55,8 @@ class Patients extends React.Component<PatientState> {
       <React.Fragment>
         {patients.patientActions.isFetching ? (
           <Loader active>Loading your Patients...</Loader>
+        ) : patients.patientActions.isDeleting ? (
+          <Loader active>Deleting...</Loader>
         ) : (
           <React.Fragment>
             <Button icon labelPosition='left' positive>
@@ -46,7 +87,11 @@ class Patients extends React.Component<PatientState> {
                       <Button icon>
                         <Icon name='edit' />
                       </Button>
-                      <Button icon>
+                      <Button
+                        icon
+                        onClick={() =>
+                          this.showDeletePatientConfirmation(patient.id)
+                        }>
                         <Icon name='delete' />
                       </Button>
                     </Table.Cell>
@@ -56,6 +101,11 @@ class Patients extends React.Component<PatientState> {
             </Table>
           </React.Fragment>
         )}
+        <Confirm
+          open={this.state.showDeletePatientModal}
+          onCancel={() => this.setState({ showDeletePatientModal: false })}
+          onConfirm={this.handleDeletePatient}
+        />
       </React.Fragment>
     );
   }
@@ -63,8 +113,20 @@ class Patients extends React.Component<PatientState> {
 
 const mapStateToProps = (state: any) => {
   return {
+    auth: state.auth,
     patients: state.patients,
   };
 };
 
-export default connect(mapStateToProps)(Patients);
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    fetchPatients: (id: string) => {
+      dispatch(fetchPatients(id));
+    },
+    deletePatient: (id: string, callback: () => void) => {
+      dispatch(deletePatient(id, callback));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Patients);
