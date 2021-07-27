@@ -1,10 +1,12 @@
 import './css/index.css';
 import React from 'react';
+import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
 import { Route, Switch } from 'react-router-dom';
 import { Container, Dimmer, Loader } from 'semantic-ui-react';
 
 import Navbar from '../layout/navbar';
+import { AuthState } from '../../reducers/auth';
 
 const Loading = () => {
   return (
@@ -29,21 +31,39 @@ const Settings = Loadable({
   loading: Loading,
 });
 
-class Index extends React.Component {
+interface IndexProps {
+  auth: AuthState;
+}
+
+class Index extends React.Component<IndexProps> {
   render() {
+    const { auth } = this.props;
+
     return (
       <React.Fragment>
         <Navbar />
-        <Container className='home-container'>
-          <Switch>
-            <Route path='/settings' component={Settings} />
-            <Route path='/profile' component={Profile} />
-            <Route path='/' component={Dashboard} />
-          </Switch>
-        </Container>
+        {auth && auth.authActions.isLoading ? (
+          <Dimmer active>
+            <Loader indeterminate>Loading...</Loader>
+          </Dimmer>
+        ) : (
+          <Container className='home-container'>
+            <Switch>
+              <Route path='/settings' component={Settings} />
+              <Route path='/profile' component={Profile} />
+              <Route path='/' component={Dashboard} />
+            </Switch>
+          </Container>
+        )}
       </React.Fragment>
     );
   }
 }
 
-export default Index;
+const mapStateToProps = (state: any) => {
+  return {
+    auth: state.auth,
+  };
+};
+
+export default connect(mapStateToProps)(Index);

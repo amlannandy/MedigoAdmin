@@ -10,11 +10,23 @@ import {
   LOGOUT_FAILURE,
 } from '../constants/index';
 
-const initialState = {
+export interface AuthState {
+  user: any;
+  authActions: {
+    error: string;
+    message: string;
+    isLoading: boolean;
+    isInitialized: boolean;
+    isAuthenticated: boolean;
+    isAuthenticating: boolean;
+  };
+}
+
+const initialState: AuthState = {
   user: null,
   authActions: {
-    error: null,
-    message: null,
+    error: '',
+    message: '',
     isLoading: false,
     isInitialized: false,
     isAuthenticated: false,
@@ -22,14 +34,14 @@ const initialState = {
   },
 };
 
-const auth = (state: object = initialState, action: any) => {
+const auth = (state: AuthState = initialState, action: any) => {
   const { type, payload } = action;
   switch (type) {
     case LOGIN_REQUEST:
       return {
         ...state,
         authActions: {
-          ...(state as any).authActions,
+          ...state.authActions,
           isAuthenticating: true,
         },
       };
@@ -38,7 +50,7 @@ const auth = (state: object = initialState, action: any) => {
         ...state,
         user: payload,
         authActions: {
-          ...(state as any).authActions,
+          ...state.authActions,
           isAuthenticating: false,
           isAuthenticated: true,
         },
@@ -47,7 +59,7 @@ const auth = (state: object = initialState, action: any) => {
       return {
         ...state,
         authActions: {
-          ...(state as any).authActions,
+          ...state.authActions,
           isAuthenticating: false,
           error: payload,
         },
@@ -57,7 +69,7 @@ const auth = (state: object = initialState, action: any) => {
       return {
         ...state,
         authActions: {
-          ...(state as any).authActions,
+          ...state.authActions,
           isLoading: true,
         },
       };
@@ -66,7 +78,7 @@ const auth = (state: object = initialState, action: any) => {
         ...state,
         user: payload,
         authActions: {
-          ...(state as any).authActions,
+          ...state.authActions,
           isLoading: false,
           isInitialized: true,
           isAuthenticated: true,
@@ -76,7 +88,7 @@ const auth = (state: object = initialState, action: any) => {
       return {
         ...state,
         authActions: {
-          ...(state as any).authActions,
+          ...state.authActions,
           isLoading: false,
           isInitialized: true,
           isAuthenticated: false,
@@ -86,7 +98,7 @@ const auth = (state: object = initialState, action: any) => {
       return {
         ...state,
         authActions: {
-          ...(state as any).authActions,
+          ...state.authActions,
           isLoading: false,
           isAuthenticated: false,
         },
@@ -95,7 +107,7 @@ const auth = (state: object = initialState, action: any) => {
       return {
         ...state,
         authActions: {
-          ...(state as any).authActions,
+          ...state.authActions,
           isLoading: false,
           error: payload,
         },

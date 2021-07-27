@@ -1,7 +1,7 @@
 import React from 'react';
 import Loadable from 'react-loadable';
 import { Dimmer, Loader } from 'semantic-ui-react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch } from 'react-router-dom';
 
 import GuestRoute from '../utils/guestRoute';
 import PrivateRoute from '../utils/privateRoute';
