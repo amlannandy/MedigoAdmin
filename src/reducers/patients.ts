@@ -5,8 +5,10 @@ import {
 } from '../constants/index';
 
 interface PatientState {
+  id: string;
   name: string;
   age: number;
+  gender: string;
   address: {
     address: string;
     city: string;
