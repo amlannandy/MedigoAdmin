@@ -74,7 +74,7 @@ class AddPatient extends React.Component<AddPatientProps, AddPatientState> {
           <Loader active>Saving patient...</Loader>
         ) : (
           <React.Fragment>
-            <Step.Group>
+            <Step.Group size='small'>
               <Step
                 active={this.state.step === 1}
                 completed={this.state.step > 1}>
@@ -104,162 +104,163 @@ class AddPatient extends React.Component<AddPatientProps, AddPatientState> {
               </Step>
             </Step.Group>
             <Form>
-              {/* Step 1 */}
-              <Segment>
-                <strong>
-                  Please provide basic information about the patient
-                </strong>
-                <Divider />
-                <Form.Input
-                  name='firstName'
-                  value={this.state.firstName}
-                  //error={this.state.emailError ? this.state.emailError : null}
-                  icon='user'
-                  iconPosition='left'
-                  placeholder='First Name'
-                  onChange={this.handleOnChange}
-                />
-                <Form.Input
-                  name='lastName'
-                  value={this.state.lastName}
-                  //error={this.state.emailError ? this.state.emailError : null}
-                  icon='user outline'
-                  iconPosition='left'
-                  placeholder='Last Name'
-                  onChange={this.handleOnChange}
-                />
-                <Form.Input
-                  name='age'
-                  value={this.state.age}
-                  type='number'
-                  //error={this.state.emailError ? this.state.emailError : null}
-                  icon='numbered list'
-                  iconPosition='left'
-                  placeholder='Age'
-                  onChange={this.handleOnChange}
-                />
-                <Dropdown
-                  fluid
-                  className='custom-dropdown'
-                  placeholder='Select Gender'
-                  selection
-                  options={genderOptions}
-                />
-                <Segment.Inline>
-                  <Button icon negative labelPosition='left'>
-                    Cancel
-                    <Icon name='cancel' />
-                  </Button>
-                  <Button floated='right' icon primary labelPosition='left'>
-                    Next
-                    <Icon name='angle right' />
-                  </Button>
-                </Segment.Inline>
-              </Segment>
-              {/* Step 2 */}
-              <Segment>
-                <strong>
-                  Please provide residential details of the patient
-                </strong>
-                <Divider />
-                <Form.Input
-                  name='firstName'
-                  value={this.state.firstName}
-                  //error={this.state.emailError ? this.state.emailError : null}
-                  icon='user'
-                  iconPosition='left'
-                  placeholder='First Name'
-                  onChange={this.handleOnChange}
-                />
-                <Form.Input
-                  name='lastName'
-                  value={this.state.lastName}
-                  //error={this.state.emailError ? this.state.emailError : null}
-                  icon='user outline'
-                  iconPosition='left'
-                  placeholder='Last Name'
-                  onChange={this.handleOnChange}
-                />
-                <Form.Input
-                  name='age'
-                  value={this.state.age}
-                  type='number'
-                  //error={this.state.emailError ? this.state.emailError : null}
-                  icon='numbered list'
-                  iconPosition='left'
-                  placeholder='Age'
-                  onChange={this.handleOnChange}
-                />
-                <Dropdown
-                  fluid
-                  className='custom-dropdown'
-                  placeholder='Select Gender'
-                  selection
-                  options={genderOptions}
-                />
-                <Segment.Inline>
-                  <Button icon primary labelPosition='left'>
-                    Previous
-                    <Icon name='angle left' />
-                  </Button>
-                  <Button floated='right' icon primary labelPosition='right'>
-                    Next
-                    <Icon name='angle right' />
-                  </Button>
-                </Segment.Inline>
-              </Segment>
-              {/* Step 3 */}
-              <Segment>
-                <strong>
-                  Please provide basic health information about the patient
-                </strong>
-                <Divider />
-                <Form.Input
-                  name='firstName'
-                  value={this.state.firstName}
-                  //error={this.state.emailError ? this.state.emailError : null}
-                  icon='user'
-                  iconPosition='left'
-                  placeholder='First Name'
-                  onChange={this.handleOnChange}
-                />
-                <Form.Input
-                  name='lastName'
-                  value={this.state.lastName}
-                  //error={this.state.emailError ? this.state.emailError : null}
-                  icon='user outline'
-                  iconPosition='left'
-                  placeholder='Last Name'
-                  onChange={this.handleOnChange}
-                />
-                <Form.Input
-                  name='age'
-                  value={this.state.age}
-                  type='number'
-                  //error={this.state.emailError ? this.state.emailError : null}
-                  icon='numbered list'
-                  iconPosition='left'
-                  placeholder='Age'
-                  onChange={this.handleOnChange}
-                />
-                <Dropdown
-                  fluid
-                  className='custom-dropdown'
-                  placeholder='Select Gender'
-                  selection
-                  options={genderOptions}
-                />
-                <Segment.Inline>
-                  <Button icon primary labelPosition='left'>
-                    Previous
-                    <Icon name='angle left' />
-                  </Button>
-                  <Button floated='right' icon positive labelPosition='right'>
-                    Save Record
-                    <Icon name='save' />
-                  </Button>
-                </Segment.Inline>
-              </Segment>
+              {this.state.step === 1 ? (
+                <Segment>
+                  <strong>
+                    Please provide basic information about the patient
+                  </strong>
+                  <Divider />
+                  <Form.Input
+                    name='firstName'
+                    value={this.state.firstName}
+                    //error={this.state.emailError ? this.state.emailError : null}
+                    icon='user'
+                    iconPosition='left'
+                    placeholder='First Name'
+                    onChange={this.handleOnChange}
+                  />
+                  <Form.Input
+                    name='lastName'
+                    value={this.state.lastName}
+                    //error={this.state.emailError ? this.state.emailError : null}
+                    icon='user outline'
+                    iconPosition='left'
+                    placeholder='Last Name'
+                    onChange={this.handleOnChange}
+                  />
+                  <Form.Input
+                    name='age'
+                    value={this.state.age}
+                    type='number'
+                    //error={this.state.emailError ? this.state.emailError : null}
+                    icon='numbered list'
+                    iconPosition='left'
+                    placeholder='Age'
+                    onChange={this.handleOnChange}
+                  />
+                  <Dropdown
+                    fluid
+                    className='custom-dropdown'
+                    placeholder='Select Gender'
+                    selection
+                    options={genderOptions}
+                  />
+                  <Segment.Inline>
+                    <Button icon negative labelPosition='left'>
+                      Cancel
+                      <Icon name='cancel' />
+                    </Button>
+                    <Button floated='right' icon primary labelPosition='right'>
+                      Next
+                      <Icon name='angle right' />
+                    </Button>
+                  </Segment.Inline>
+                </Segment>
+              ) : this.state.step == 2 ? (
+                <Segment>
+                  <strong>
+                    Please provide residential details of the patient
+                  </strong>
+                  <Divider />
+                  <Form.Input
+                    name='firstName'
+                    value={this.state.firstName}
+                    //error={this.state.emailError ? this.state.emailError : null}
+                    icon='user'
+                    iconPosition='left'
+                    placeholder='First Name'
+                    onChange={this.handleOnChange}
+                  />
+                  <Form.Input
+                    name='lastName'
+                    value={this.state.lastName}
+                    //error={this.state.emailError ? this.state.emailError : null}
+                    icon='user outline'
+                    iconPosition='left'
+                    placeholder='Last Name'
+                    onChange={this.handleOnChange}
+                  />
+                  <Form.Input
+                    name='age'
+                    value={this.state.age}
+                    type='number'
+                    //error={this.state.emailError ? this.state.emailError : null}
+                    icon='numbered list'
+                    iconPosition='left'
+                    placeholder='Age'
+                    onChange={this.handleOnChange}
+                  />
+                  <Dropdown
+                    fluid
+                    className='custom-dropdown'
+                    placeholder='Select Gender'
+                    selection
+                    options={genderOptions}
+                  />
+                  <Segment.Inline>
+                    <Button icon primary labelPosition='left'>
+                      Previous
+                      <Icon name='angle left' />
+                    </Button>
+                    <Button floated='right' icon primary labelPosition='right'>
+                      Next
+                      <Icon name='angle right' />
+                    </Button>
+                  </Segment.Inline>
+                </Segment>
+              ) : (
+                <Segment>
+                  <strong>
+                    Please provide basic health information about the patient
+                  </strong>
+                  <Divider />
+                  <Form.Input
+                    name='firstName'
+                    value={this.state.firstName}
+                    //error={this.state.emailError ? this.state.emailError : null}
+                    icon='user'
+                    iconPosition='left'
+                    placeholder='First Name'
+                    onChange={this.handleOnChange}
+                  />
+                  <Form.Input
+                    name='lastName'
+                    value={this.state.lastName}
+                    //error={this.state.emailError ? this.state.emailError : null}
+                    icon='user outline'
+                    iconPosition='left'
+                    placeholder='Last Name'
+                    onChange={this.handleOnChange}
+                  />
+                  <Form.Input
+                    name='age'
+                    value={this.state.age}
+                    type='number'
+                    //error={this.state.emailError ? this.state.emailError : null}
+                    icon='numbered list'
+                    iconPosition='left'
+                    placeholder='Age'
+                    onChange={this.handleOnChange}
+                  />
+                  <Dropdown
+                    fluid
+                    className='custom-dropdown'
+                    placeholder='Select Gender'
+                    selection
+                    options={genderOptions}
+                  />
+                  <Segment.Inline>
+                    <Button icon primary labelPosition='left'>
+                      Previous
+                      <Icon name='angle left' />
+                    </Button>
+                    <Button floated='right' icon positive labelPosition='right'>
+                      Save Record
+                      <Icon name='save' />
+                    </Button>
+                  </Segment.Inline>
+                </Segment>
+              )}
             </Form>
           </React.Fragment>
         )}

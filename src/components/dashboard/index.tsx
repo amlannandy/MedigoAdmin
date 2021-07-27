@@ -52,10 +52,10 @@ class Index extends React.Component<IndexProps> {
     return (
       <Grid>
         <Grid.Row>
-          <Grid.Column width={2}>
+          <Grid.Column width={4}>
             <Sidebar />
           </Grid.Column>
-          <Grid.Column width={14}>
+          <Grid.Column width={12}>
             <Switch>
               <Route path='/add-patient' component={AddPatient} />
               <Route path='/appointments' component={Appointments} />

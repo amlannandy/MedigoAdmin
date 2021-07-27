@@ -14,7 +14,7 @@ class Sidebar extends React.Component {
     const { activeItem } = this.state;
 
     return (
-      <Menu vertical compact icon='labeled'>
+      <Menu vertical size='large'>
         <Menu.Item
           name='home'
           color='blue'
@@ -44,6 +44,26 @@ class Sidebar extends React.Component {
           onClick={this.handleItemClick}>
           <Icon name='history' />
           Appointments
+        </Menu.Item>
+        <Menu.Item
+          name='messages'
+          color='blue'
+          as={Link}
+          to='/messages'
+          active={activeItem === 'messages'}
+          onClick={this.handleItemClick}>
+          <Icon name='mail' />
+          Messages
+        </Menu.Item>
+        <Menu.Item
+          name='clinic'
+          color='blue'
+          as={Link}
+          to='/clinic'
+          active={activeItem === 'clinic'}
+          onClick={this.handleItemClick}>
+          <Icon name='hospital' />
+          Your Clinic
         </Menu.Item>
       </Menu>
     );
