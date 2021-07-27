@@ -1,8 +1,12 @@
+import { PatientState } from '../reducers/patients';
 import { patientsCollection } from '../utils/firebase';
 import {
   FETCH_PATIENTS_REQUEST,
   FETCH_PATIENTS_SUCCESS,
   FETCH_PATIENTS_FAILURE,
+  ADD_PATIENT_REQUEST,
+  ADD_PATIENT_SUCCESS,
+  ADD_PATIENT_FAILURE,
   DELETE_PATIENT_REQUEST,
   DELETE_PATIENT_SUCCESS,
   DELETE_PATIENT_FAILURE,
@@ -35,6 +39,28 @@ export const fetchPatients = (doctorId: string) => {
   }
   function failure(error: string) {
     return { type: FETCH_PATIENTS_FAILURE, payload: error };
+  }
+};
+
+export const addPatient = (data: PatientState, callback: () => void) => {
+  return dispatch => {
+    dispatch(request());
+    patientsCollection
+      .add(data)
+      .then(() => {
+        dispatch(success());
+        callback();
+      })
+      .catch(err => dispatch(failure(err.message)));
+  };
+  function request() {
+    return { type: ADD_PATIENT_REQUEST };
+  }
+  function success() {
+    return { type: ADD_PATIENT_SUCCESS };
+  }
+  function failure(error: string) {
+    return { type: ADD_PATIENT_FAILURE, payload: error };
   }
 };
 

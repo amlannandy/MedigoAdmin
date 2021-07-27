@@ -2,18 +2,14 @@ import React from 'react';
 import Loadable from 'react-loadable';
 import { connect } from 'react-redux';
 import { Switch, Route } from 'react-router-dom';
-import { Dimmer, Loader, Grid } from 'semantic-ui-react';
+import { Loader, Grid } from 'semantic-ui-react';
 
 import Sidebar from '../layout/sidebar';
 import { AuthState } from '../../reducers/auth';
 import { fetchPatients, fetchAppointments } from '../../actions/index';
 
 const Loading = () => {
-  return (
-    <Dimmer active>
-      <Loader indeterminate>Loading...</Loader>
-    </Dimmer>
-  );
+  return <Loader active>Loading...</Loader>;
 };
 
 const Overview = Loadable({
@@ -28,6 +24,11 @@ const Patients = Loadable({
 
 const Appointments = Loadable({
   loader: () => import('./appointments'),
+  loading: Loading,
+});
+
+const AddPatient = Loadable({
+  loader: () => import('./addPatient'),
   loading: Loading,
 });
 
@@ -56,6 +57,7 @@ class Index extends React.Component<IndexProps> {
           </Grid.Column>
           <Grid.Column width={14}>
             <Switch>
+              <Route path='/add-patient' component={AddPatient} />
               <Route path='/appointments' component={Appointments} />
               <Route path='/patients' component={Patients} />
               <Route path='/' component={Overview} />

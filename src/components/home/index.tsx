@@ -3,17 +3,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Loadable from 'react-loadable';
 import { Route, Switch } from 'react-router-dom';
-import { Container, Dimmer, Loader } from 'semantic-ui-react';
+import { Container, Loader } from 'semantic-ui-react';
 
 import Navbar from '../layout/navbar';
 import { AuthState } from '../../reducers/auth';
 
 const Loading = () => {
-  return (
-    <Dimmer active>
-      <Loader indeterminate>Loading...</Loader>
-    </Dimmer>
-  );
+  return <Loader active>Loading...</Loader>;
 };
 
 const Dashboard = Loadable({
@@ -43,9 +39,7 @@ class Index extends React.Component<IndexProps> {
       <React.Fragment>
         <Navbar />
         {auth && auth.authActions.isLoading ? (
-          <Dimmer active>
-            <Loader indeterminate>Loading...</Loader>
-          </Dimmer>
+          <Loader active>Loading...</Loader>
         ) : (
           <Container className='home-container'>
             <Switch>

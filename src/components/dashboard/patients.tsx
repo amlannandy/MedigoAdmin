@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import {
   Loader,
   Table,
@@ -66,7 +67,12 @@ class Patients extends React.Component<PatientProp, PatientState> {
           <Loader active>Deleting...</Loader>
         ) : (
           <React.Fragment>
-            <Button icon labelPosition='left' positive>
+            <Button
+              icon
+              labelPosition='left'
+              positive
+              as={Link}
+              to='/add-patient'>
               Add New Patient
               <Icon name='add' />
             </Button>
