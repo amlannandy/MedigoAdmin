@@ -21,6 +21,7 @@ const doctorsCollection = db.collection('doctors');
 const usersCollection = db.collection('users');
 const clinicsCollection = db.collection('clinics');
 const appointmentsCollection = db.collection('appointments');
+const patientsCollection = db.collection('patients');
 
 export {
   firebase,
@@ -30,4 +31,5 @@ export {
   usersCollection,
   clinicsCollection,
   appointmentsCollection,
+  patientsCollection,
 };
