@@ -21,8 +21,7 @@ export const login = (
     dispatch(request());
     auth
       .signInWithEmailAndPassword(email, password)
-      .then(res => {
-        console.log(res);
+      .then(() => {
         dispatch(success());
         callback();
       })

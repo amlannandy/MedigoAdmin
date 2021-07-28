@@ -1,4 +1,5 @@
 import 'firebase/auth';
+import 'firebase/storage';
 import 'firebase/firestore';
 import firebase from 'firebase/app';
 
@@ -16,6 +17,7 @@ firebase.initializeApp(firebaseConfig);
 
 const db = firebase.firestore();
 const auth = firebase.auth();
+const storage = firebase.storage();
 
 const doctorsCollection = db.collection('doctors');
 const usersCollection = db.collection('users');
@@ -23,13 +25,18 @@ const clinicsCollection = db.collection('clinics');
 const appointmentsCollection = db.collection('appointments');
 const patientsCollection = db.collection('patients');
 
+const getGeopoint = (lat: number, lng: number) =>
+  new firebase.firestore.GeoPoint(lat, lng);
+
 export {
   firebase,
   auth,
   db,
+  storage,
   doctorsCollection,
   usersCollection,
   clinicsCollection,
   appointmentsCollection,
   patientsCollection,
+  getGeopoint,
 };

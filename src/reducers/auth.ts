@@ -8,6 +8,7 @@ import {
   LOGOUT_REQUEST,
   LOGOUT_SUCCESS,
   LOGOUT_FAILURE,
+  ADD_CLINIC_SUCCESS,
   DELETE_CLINIC_SUCCESS,
 } from '../constants/index';
 
@@ -111,6 +112,14 @@ const auth = (state: AuthState = initialState, action: any) => {
           ...state.authActions,
           isLoading: false,
           error: payload,
+        },
+      };
+    case ADD_CLINIC_SUCCESS:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          clinicId: payload.id,
         },
       };
     case DELETE_CLINIC_SUCCESS:

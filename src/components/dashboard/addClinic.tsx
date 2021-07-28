@@ -4,12 +4,16 @@ import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { Loader, Form, Icon, Message } from 'semantic-ui-react';
 
+import { AuthState } from '../../reducers/auth';
+import { addClinic } from '../../actions/index';
 import { ClinicState } from '../../reducers/clinic';
 import Placeholder from '../../static/placeholder.jpg';
 import { isEmail, isMobilePhone } from '../../utils/helpers';
 
 interface AddClinicProps extends RouteComponentProps<any> {
+  auth: AuthState;
   clinic: ClinicState;
+  addClinic: (data: any, imageFile: any, callback: Function) => void;
 }
 
 interface AddClinicState {
@@ -45,18 +49,6 @@ class AddClinic extends React.Component<AddClinicProps, AddClinicState> {
       addressError: '',
       isFormValid: false,
     },
-  };
-
-  handleOnChange = (e: any) => {
-    const newState = { [e.target.name]: e.target.value } as any;
-    this.setState(
-      {
-        ...newState,
-      },
-      () => {
-        this.validateForm();
-      }
-    );
   };
 
   validateForm = () => {
@@ -103,12 +95,43 @@ class AddClinic extends React.Component<AddClinicProps, AddClinicState> {
     });
   };
 
+  handleOnChange = (e: any) => {
+    const newState = { [e.target.name]: e.target.value } as any;
+    this.setState(
+      {
+        ...newState,
+      },
+      () => {
+        this.validateForm();
+      }
+    );
+  };
+
   handleImageInput = e => {
     const image = e.target.files[0];
     const imageUrl = URL.createObjectURL(e.target.files[0]);
     this.setState({ image, imageUrl }, () => {
       this.validateForm();
     });
+  };
+
+  handleAddClinic = () => {
+    const { auth, addClinic } = this.props;
+    const { name, email, phone, address, image } = this.state;
+    const data = {
+      name,
+      email,
+      phone,
+      address,
+      doctorId: auth.user.id,
+      location: { latitude: 23, longitude: 76 },
+    };
+    addClinic(data, image, this.addClinicCallback);
+  };
+
+  addClinicCallback = () => {
+    const { history } = this.props;
+    history.replace('/clinic');
   };
 
   render() {
@@ -191,7 +214,8 @@ class AddClinic extends React.Component<AddClinicProps, AddClinicState> {
                   positive
                   labelPosition='right'
                   floated='right'
-                  disabled={!errors.isFormValid}>
+                  disabled={!errors.isFormValid}
+                  onClick={this.handleAddClinic}>
                   Confirm
                   <Icon name='angle right' />
                 </Form.Button>
@@ -206,12 +230,17 @@ class AddClinic extends React.Component<AddClinicProps, AddClinicState> {
 
 const mapStateToProps = (state: any) => {
   return {
+    auth: state.auth,
     clinic: state.clinic,
   };
 };
 
 const mapDispatchToProps = (dispatch: Function) => {
-  return {};
+  return {
+    addClinic: (data: any, imageFile: any, callback: Function) => {
+      return dispatch(addClinic(data, imageFile, callback));
+    },
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddClinic);

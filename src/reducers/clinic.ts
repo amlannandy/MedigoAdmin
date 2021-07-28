@@ -2,6 +2,9 @@ import {
   FETCH_CLINIC_REQUEST,
   FETCH_CLINIC_SUCCESS,
   FETCH_CLINIC_FAILURE,
+  ADD_CLINIC_SUCCESS,
+  ADD_CLINIC_REQUEST,
+  ADD_CLINIC_FAILURE,
   DELETE_CLINIC_REQUEST,
   DELETE_CLINIC_SUCCESS,
   DELETE_CLINIC_FAILURE,
@@ -68,6 +71,32 @@ const clinic = (state: ClinicState = initialState, action: any) => {
           ...state.clinicActions,
           isFetching: false,
           error: false,
+        },
+      };
+    case ADD_CLINIC_REQUEST:
+      return {
+        ...state,
+        clinicActions: {
+          ...state.clinicActions,
+          isAdding: true,
+        },
+      };
+    case ADD_CLINIC_SUCCESS:
+      return {
+        ...state,
+        clinic: payload,
+        clinicActions: {
+          ...state.clinicActions,
+          isAdding: false,
+        },
+      };
+    case ADD_CLINIC_FAILURE:
+      return {
+        ...state,
+        clinicActions: {
+          ...state.clinicActions,
+          isAdding: false,
+          error: payload,
         },
       };
     case DELETE_CLINIC_REQUEST:

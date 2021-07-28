@@ -5,8 +5,16 @@ import {
   DELETE_CLINIC_REQUEST,
   DELETE_CLINIC_SUCCESS,
   DELETE_CLINIC_FAILURE,
+  ADD_CLINIC_REQUEST,
+  ADD_CLINIC_SUCCESS,
+  ADD_CLINIC_FAILURE,
 } from '../constants/index';
-import { clinicsCollection, doctorsCollection } from '../utils/firebase';
+import {
+  clinicsCollection,
+  doctorsCollection,
+  storage,
+  getGeopoint,
+} from '../utils/firebase';
 
 export const fetchClinic = (id: string) => {
   return dispatch => {
@@ -32,6 +40,66 @@ export const fetchClinic = (id: string) => {
   }
   function failure(error: string) {
     return { type: FETCH_CLINIC_FAILURE, payload: error };
+  }
+};
+
+export const addClinic = (data: any, imageFile: any, callback: Function) => {
+  return dispatch => {
+    dispatch(request());
+    storage
+      .ref(`clinicPhotos/${data.doctorId}/`)
+      .put(imageFile)
+      .then(snapshot => {
+        snapshot.ref
+          .getDownloadURL()
+          .then(imageUrl => {
+            const location = getGeopoint(
+              data.location.latitude,
+              data.location.longitude
+            );
+            const clinicData = {
+              ...data,
+              imageUrl,
+              location,
+            };
+            clinicsCollection
+              .add(clinicData)
+              .then(docRef => {
+                docRef
+                  .get()
+                  .then(doc => {
+                    const id = doc.id;
+                    const data = doc.data();
+                    const clinic: any = {
+                      id,
+                      ...data,
+                    };
+                    doctorsCollection
+                      .doc(clinic.doctorId)
+                      .update({
+                        clinicId: id,
+                      })
+                      .then(() => {
+                        dispatch(success(clinic));
+                        callback();
+                      })
+                      .catch(err => dispatch(failure(err.message)));
+                  })
+                  .catch(err => dispatch(failure(err.message)));
+              })
+              .catch(err => dispatch(failure(err.message)));
+          })
+          .catch(err => dispatch(failure(err.message)));
+      });
+  };
+  function request() {
+    return { type: ADD_CLINIC_REQUEST };
+  }
+  function success(data: any) {
+    return { type: ADD_CLINIC_SUCCESS, payload: data };
+  }
+  function failure(error: string) {
+    return { type: ADD_CLINIC_FAILURE, payload: error };
   }
 };
 
