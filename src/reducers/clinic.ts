@@ -22,6 +22,7 @@ export interface ClinicState {
     };
   };
   clinicActions: {
+    isAdding: boolean;
     isFetching: boolean;
     isDeleting: boolean;
     error: string;
@@ -32,6 +33,7 @@ export interface ClinicState {
 const initialState: ClinicState = {
   clinic: null,
   clinicActions: {
+    isAdding: false,
     isFetching: false,
     isDeleting: false,
     error: '',
