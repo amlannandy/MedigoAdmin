@@ -8,6 +8,7 @@ export interface ClinicState {
   clinic: {
     id: string;
     name: string;
+    email: string;
     phone: string;
     address: string;
     imageUrl: string;
@@ -48,7 +49,7 @@ const clinic = (state: ClinicState = initialState, action: any) => {
       return {
         ...state,
         clinic: payload,
-        clinicActins: {
+        clinicActions: {
           ...state.clinicActions,
           isFetching: false,
         },
