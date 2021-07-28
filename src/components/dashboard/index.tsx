@@ -6,7 +6,11 @@ import { Loader, Grid } from 'semantic-ui-react';
 
 import Sidebar from '../layout/sidebar';
 import { AuthState } from '../../reducers/auth';
-import { fetchPatients, fetchAppointments } from '../../actions/index';
+import {
+  fetchClinic,
+  fetchPatients,
+  fetchAppointments,
+} from '../../actions/index';
 
 const Loading = () => {
   return <Loader active>Loading...</Loader>;
@@ -27,6 +31,11 @@ const Appointments = Loadable({
   loading: Loading,
 });
 
+const Clinic = Loadable({
+  loader: () => import('./clinic'),
+  loading: Loading,
+});
+
 const AddPatient = Loadable({
   loader: () => import('./addPatient'),
   loading: Loading,
@@ -34,17 +43,22 @@ const AddPatient = Loadable({
 
 interface IndexProps {
   auth: AuthState;
+  fetchClinic: (id: string) => void;
   fetchPatients: (doctorId: string) => void;
   fetchAppointments: (doctorId: string) => void;
 }
 
 class Index extends React.Component<IndexProps> {
   componentDidMount() {
-    const { auth, fetchAppointments, fetchPatients } = this.props;
+    const { auth, fetchAppointments, fetchPatients, fetchClinic } = this.props;
     if (auth.authActions.isAuthenticated) {
       const userId = auth.user.id;
+      const clinicId = auth.user.clinicId;
       fetchPatients(userId);
       fetchAppointments(userId);
+      if (clinicId) {
+        fetchClinic(clinicId);
+      }
     }
   }
 
@@ -60,6 +74,7 @@ class Index extends React.Component<IndexProps> {
               <Route path='/add-patient' component={AddPatient} />
               <Route path='/appointments' component={Appointments} />
               <Route path='/patients' component={Patients} />
+              <Route path='/clinic' component={Clinic} />
               <Route path='/' component={Overview} />
             </Switch>
           </Grid.Column>
@@ -77,6 +92,9 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: any) => {
   return {
+    fetchClinic: (id: string) => {
+      return dispatch(fetchClinic(id));
+    },
     fetchPatients: (doctorId: string) => {
       return dispatch(fetchPatients(doctorId));
     },
