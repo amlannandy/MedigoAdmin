@@ -2,6 +2,7 @@ import React from 'react';
 import './css/clinic.css';
 import { connect } from 'react-redux';
 import GoogleMapReact from 'google-map-react';
+import { RouteComponentProps } from 'react-router-dom';
 import {
   Loader,
   Message,
@@ -18,7 +19,7 @@ import { AuthState } from '../../reducers/auth';
 import { deleteClinic } from '../../actions/index';
 import { ClinicState as ClinicModel } from '../../reducers/clinic';
 
-interface ClinicProps {
+interface ClinicProps extends RouteComponentProps<any> {
   auth: AuthState;
   clinic: ClinicModel;
   deleteClinic: (id: string, doctorId: string) => void;
@@ -41,7 +42,7 @@ class Clinic extends React.Component<ClinicProps, ClinicState> {
   };
 
   render() {
-    const { auth, clinic } = this.props;
+    const { auth, clinic, history } = this.props;
 
     return (
       <React.Fragment>
@@ -58,7 +59,10 @@ class Clinic extends React.Component<ClinicProps, ClinicState> {
           <Message info size='large'>
             <Message.Header>Oops!</Message.Header>
             <p>Looks like you haven't registered your clinic yet</p>
-            <Button inverted primary>
+            <Button
+              inverted
+              primary
+              onClick={() => history.push('/add-clinic')}>
               Register Now
             </Button>
           </Message>

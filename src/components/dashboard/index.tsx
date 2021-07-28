@@ -41,6 +41,11 @@ const AddPatient = Loadable({
   loading: Loading,
 });
 
+const AddClinic = Loadable({
+  loader: () => import('./addClinic'),
+  loading: Loading,
+});
+
 interface IndexProps {
   auth: AuthState;
   fetchClinic: (id: string) => void;
@@ -71,8 +76,9 @@ class Index extends React.Component<IndexProps> {
           </Grid.Column>
           <Grid.Column width={12}>
             <Switch>
-              <Route path='/add-patient' component={AddPatient} />
               <Route path='/appointments' component={Appointments} />
+              <Route path='/add-patient' component={AddPatient} />
+              <Route path='/add-clinic' component={AddClinic} />
               <Route path='/patients' component={Patients} />
               <Route path='/clinic' component={Clinic} />
               <Route path='/' component={Overview} />
