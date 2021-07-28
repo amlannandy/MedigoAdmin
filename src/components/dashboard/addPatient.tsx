@@ -156,7 +156,7 @@ class AddPatient extends React.Component<AddPatientProps, AddPatientState> {
                     </Button>
                   </Segment.Inline>
                 </Segment>
-              ) : this.state.step == 2 ? (
+              ) : this.state.step === 2 ? (
                 <Segment>
                   <strong>
                     Please provide residential details of the patient
