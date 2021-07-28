@@ -11,17 +11,35 @@ import {
   List,
   Header,
   ButtonGroup,
+  Confirm,
 } from 'semantic-ui-react';
 
 import { AuthState } from '../../reducers/auth';
+import { deleteClinic } from '../../actions/index';
 import { ClinicState as ClinicModel } from '../../reducers/clinic';
 
 interface ClinicProps {
   auth: AuthState;
   clinic: ClinicModel;
+  deleteClinic: (id: string, doctorId: string) => void;
 }
 
-class Clinic extends React.Component<ClinicProps> {
+interface ClinicState {
+  showDeleteClinicModal: boolean;
+}
+
+class Clinic extends React.Component<ClinicProps, ClinicState> {
+  state = {
+    showDeleteClinicModal: false,
+  };
+
+  handleDeleteClinic = () => {
+    const { clinic, deleteClinic } = this.props;
+    this.setState({ showDeleteClinicModal: false }, () => {
+      deleteClinic(clinic.clinic.id, clinic.clinic.doctorId);
+    });
+  };
+
   render() {
     const { auth, clinic } = this.props;
 
@@ -29,6 +47,8 @@ class Clinic extends React.Component<ClinicProps> {
       <React.Fragment>
         {clinic.clinicActions.isFetching ? (
           <Loader active>Loading your Clinic...</Loader>
+        ) : clinic.clinicActions.isDeleting ? (
+          <Loader active>Deleting...</Loader>
         ) : clinic.clinicActions.error ? (
           <Message negative>
             <Message.Header>Error</Message.Header>
@@ -81,7 +101,13 @@ class Clinic extends React.Component<ClinicProps> {
                         <Icon name='edit' />
                         Edit
                       </Button>
-                      <Button icon negative labelPosition='right'>
+                      <Button
+                        icon
+                        negative
+                        labelPosition='right'
+                        onClick={() =>
+                          this.setState({ showDeleteClinicModal: true })
+                        }>
                         <Icon name='trash' />
                         Delete
                       </Button>
@@ -117,16 +143,29 @@ class Clinic extends React.Component<ClinicProps> {
             </div>
           </React.Fragment>
         )}
+        <Confirm
+          open={this.state.showDeleteClinicModal}
+          onCancel={() => this.setState({ showDeleteClinicModal: false })}
+          onConfirm={this.handleDeleteClinic}
+        />
       </React.Fragment>
     );
   }
 }
 
-const mapStateToDispatch = (state: any) => {
+const mapStateToProps = (state: any) => {
   return {
     auth: state.auth,
     clinic: state.clinic,
   };
 };
 
-export default connect(mapStateToDispatch)(Clinic);
+const mapDispatchToProps = (dispatch: Function) => {
+  return {
+    deleteClinic: (id: string, doctorId: string) => {
+      return dispatch(deleteClinic(id, doctorId));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Clinic);

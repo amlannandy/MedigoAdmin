@@ -2,8 +2,11 @@ import {
   FETCH_CLINIC_REQUEST,
   FETCH_CLINIC_SUCCESS,
   FETCH_CLINIC_FAILURE,
+  DELETE_CLINIC_REQUEST,
+  DELETE_CLINIC_SUCCESS,
+  DELETE_CLINIC_FAILURE,
 } from '../constants/index';
-import { clinicsCollection } from '../utils/firebase';
+import { clinicsCollection, doctorsCollection } from '../utils/firebase';
 
 export const fetchClinic = (id: string) => {
   return dispatch => {
@@ -29,5 +32,30 @@ export const fetchClinic = (id: string) => {
   }
   function failure(error: string) {
     return { type: FETCH_CLINIC_FAILURE, payload: error };
+  }
+};
+
+export const deleteClinic = (id: string, doctorId: string) => {
+  return dispatch => {
+    dispatch(request());
+    clinicsCollection
+      .doc(id)
+      .delete()
+      .then(() => {
+        doctorsCollection
+          .doc(doctorId)
+          .update({ clinicId: null })
+          .then(() => dispatch(success()));
+      })
+      .catch(err => dispatch(failure(err.message)));
+  };
+  function request() {
+    return { type: DELETE_CLINIC_REQUEST };
+  }
+  function success() {
+    return { type: DELETE_CLINIC_SUCCESS };
+  }
+  function failure(error: string) {
+    return { type: DELETE_CLINIC_FAILURE, payload: error };
   }
 };

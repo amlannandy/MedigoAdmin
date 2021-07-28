@@ -8,6 +8,7 @@ import {
   LOGOUT_REQUEST,
   LOGOUT_SUCCESS,
   LOGOUT_FAILURE,
+  DELETE_CLINIC_SUCCESS,
 } from '../constants/index';
 
 export interface AuthState {
@@ -110,6 +111,14 @@ const auth = (state: AuthState = initialState, action: any) => {
           ...state.authActions,
           isLoading: false,
           error: payload,
+        },
+      };
+    case DELETE_CLINIC_SUCCESS:
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          clinicId: null,
         },
       };
     default:
