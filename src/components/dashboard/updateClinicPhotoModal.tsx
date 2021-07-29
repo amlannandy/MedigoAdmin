@@ -67,6 +67,7 @@ class UpdateClinicPhotoModal extends React.Component<
         <Modal.Content image>
           <img
             className='custom-image'
+            alt='clinic'
             src={imageUrl ? imageUrl : Placeholder}
           />
           <Modal.Description>
