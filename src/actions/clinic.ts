@@ -11,6 +11,9 @@ import {
   UPDATE_CLINIC_PHOTO_REQUEST,
   UPDATE_CLINIC_PHOTO_SUCCESS,
   UPDATE_CLINIC_PHOTO_FAILURE,
+  UPDATE_CLINIC_DETAILS_REQUEST,
+  UPDATE_CLINIC_DETAILS_SUCCESS,
+  UPDATE_CLINIC_DETAILS_FAILURE,
 } from '../constants/index';
 import {
   clinicsCollection,
@@ -167,5 +170,32 @@ export const updateClinicPhoto = (
   }
   function failure(error: string) {
     return { type: UPDATE_CLINIC_PHOTO_FAILURE, payload: error };
+  }
+};
+
+export const updateClinicDetails = (
+  id: string,
+  data: any,
+  callback: Function
+) => {
+  return dispatch => {
+    dispatch(request());
+    clinicsCollection
+      .doc(id)
+      .update(data)
+      .then(() => {
+        dispatch(success());
+        callback();
+      })
+      .catch(err => dispatch(failure(err.message)));
+  };
+  function request() {
+    return { type: UPDATE_CLINIC_DETAILS_REQUEST };
+  }
+  function success() {
+    return { type: UPDATE_CLINIC_DETAILS_SUCCESS };
+  }
+  function failure(error: string) {
+    return { type: UPDATE_CLINIC_DETAILS_FAILURE, payload: error };
   }
 };

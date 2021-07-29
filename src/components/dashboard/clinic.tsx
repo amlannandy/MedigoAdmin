@@ -18,6 +18,7 @@ import {
 import { AuthState } from '../../reducers/auth';
 import { deleteClinic } from '../../actions/index';
 import UpdateClinicPhotoModal from './updateClinicPhotoModal';
+import UpdateClinicDetailsModal from './updateClinicDetailsModal';
 import { ClinicState as ClinicModel } from '../../reducers/clinic';
 
 interface ClinicProps extends RouteComponentProps<any> {
@@ -29,12 +30,14 @@ interface ClinicProps extends RouteComponentProps<any> {
 interface ClinicState {
   showDeleteClinicModal: boolean;
   showUpdateClinicPhotoModal: boolean;
+  showUpdateClinicDetailsModal: boolean;
 }
 
 class Clinic extends React.Component<ClinicProps, ClinicState> {
   state = {
     showDeleteClinicModal: false,
     showUpdateClinicPhotoModal: false,
+    showUpdateClinicDetailsModal: false,
   };
 
   handleDeleteClinic = () => {
@@ -104,7 +107,12 @@ class Clinic extends React.Component<ClinicProps, ClinicState> {
                       </List.Item>
                     </List>
                     <ButtonGroup>
-                      <Button icon labelPosition='right'>
+                      <Button
+                        icon
+                        labelPosition='right'
+                        onClick={() =>
+                          this.setState({ showUpdateClinicDetailsModal: true })
+                        }>
                         <Icon name='edit' />
                         Edit
                       </Button>
@@ -169,6 +177,12 @@ class Clinic extends React.Component<ClinicProps, ClinicState> {
           isOpen={this.state.showUpdateClinicPhotoModal}
           closeModal={() =>
             this.setState({ showUpdateClinicPhotoModal: false })
+          }
+        />
+        <UpdateClinicDetailsModal
+          isOpen={this.state.showUpdateClinicDetailsModal}
+          closeModal={() =>
+            this.setState({ showUpdateClinicDetailsModal: false })
           }
         />
       </React.Fragment>

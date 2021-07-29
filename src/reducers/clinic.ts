@@ -11,6 +11,9 @@ import {
   UPDATE_CLINIC_PHOTO_REQUEST,
   UPDATE_CLINIC_PHOTO_SUCCESS,
   UPDATE_CLINIC_PHOTO_FAILURE,
+  UPDATE_CLINIC_DETAILS_REQUEST,
+  UPDATE_CLINIC_DETAILS_SUCCESS,
+  UPDATE_CLINIC_DETAILS_FAILURE,
 } from '../constants/index';
 
 export interface ClinicState {
@@ -131,6 +134,7 @@ const clinic = (state: ClinicState = initialState, action: any) => {
         },
       };
     case UPDATE_CLINIC_PHOTO_REQUEST:
+    case UPDATE_CLINIC_DETAILS_REQUEST:
       return {
         ...state,
         clinicActions: {
@@ -139,6 +143,7 @@ const clinic = (state: ClinicState = initialState, action: any) => {
         },
       };
     case UPDATE_CLINIC_PHOTO_SUCCESS:
+    case UPDATE_CLINIC_DETAILS_SUCCESS:
       return {
         ...state,
         clinicActions: {
@@ -147,6 +152,7 @@ const clinic = (state: ClinicState = initialState, action: any) => {
         },
       };
     case UPDATE_CLINIC_PHOTO_FAILURE:
+    case UPDATE_CLINIC_DETAILS_FAILURE:
       return {
         ...state,
         clinicActions: {
