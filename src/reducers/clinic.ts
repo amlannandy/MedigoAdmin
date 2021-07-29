@@ -8,6 +8,9 @@ import {
   DELETE_CLINIC_REQUEST,
   DELETE_CLINIC_SUCCESS,
   DELETE_CLINIC_FAILURE,
+  UPDATE_CLINIC_PHOTO_REQUEST,
+  UPDATE_CLINIC_PHOTO_SUCCESS,
+  UPDATE_CLINIC_PHOTO_FAILURE,
 } from '../constants/index';
 
 export interface ClinicState {
@@ -28,6 +31,7 @@ export interface ClinicState {
     isAdding: boolean;
     isFetching: boolean;
     isDeleting: boolean;
+    isUpdating: boolean;
     error: string;
     message: string;
   };
@@ -39,6 +43,7 @@ const initialState: ClinicState = {
     isAdding: false,
     isFetching: false,
     isDeleting: false,
+    isUpdating: false,
     error: '',
     message: '',
   },
@@ -122,6 +127,31 @@ const clinic = (state: ClinicState = initialState, action: any) => {
         clinicActions: {
           ...state.clinicActions,
           isDeleting: false,
+          error: payload,
+        },
+      };
+    case UPDATE_CLINIC_PHOTO_REQUEST:
+      return {
+        ...state,
+        clinicActions: {
+          ...state.clinicActions,
+          isUpdating: true,
+        },
+      };
+    case UPDATE_CLINIC_PHOTO_SUCCESS:
+      return {
+        ...state,
+        clinicActions: {
+          ...state.clinicActions,
+          isUpdating: false,
+        },
+      };
+    case UPDATE_CLINIC_PHOTO_FAILURE:
+      return {
+        ...state,
+        clinicActions: {
+          ...state.clinicActions,
+          isUpdating: false,
           error: payload,
         },
       };

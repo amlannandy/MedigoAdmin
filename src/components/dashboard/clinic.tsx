@@ -17,6 +17,7 @@ import {
 
 import { AuthState } from '../../reducers/auth';
 import { deleteClinic } from '../../actions/index';
+import UpdateClinicPhotoModal from './updateClinicPhotoModal';
 import { ClinicState as ClinicModel } from '../../reducers/clinic';
 
 interface ClinicProps extends RouteComponentProps<any> {
@@ -27,11 +28,13 @@ interface ClinicProps extends RouteComponentProps<any> {
 
 interface ClinicState {
   showDeleteClinicModal: boolean;
+  showUpdateClinicPhotoModal: boolean;
 }
 
 class Clinic extends React.Component<ClinicProps, ClinicState> {
   state = {
     showDeleteClinicModal: false,
+    showUpdateClinicPhotoModal: false,
   };
 
   handleDeleteClinic = () => {
@@ -74,7 +77,7 @@ class Clinic extends React.Component<ClinicProps, ClinicState> {
                   <Grid.Column width={6}>
                     <img
                       src={clinic.clinic.imageUrl}
-                      height='200px'
+                      className='image-container'
                       alt='clinic'
                     />
                   </Grid.Column>
@@ -104,6 +107,16 @@ class Clinic extends React.Component<ClinicProps, ClinicState> {
                       <Button icon labelPosition='right'>
                         <Icon name='edit' />
                         Edit
+                      </Button>
+                      <Button
+                        icon
+                        labelPosition='right'
+                        color='yellow'
+                        onClick={() =>
+                          this.setState({ showUpdateClinicPhotoModal: true })
+                        }>
+                        <Icon name='photo' />
+                        Update Photo
                       </Button>
                       <Button
                         icon
@@ -151,6 +164,12 @@ class Clinic extends React.Component<ClinicProps, ClinicState> {
           open={this.state.showDeleteClinicModal}
           onCancel={() => this.setState({ showDeleteClinicModal: false })}
           onConfirm={this.handleDeleteClinic}
+        />
+        <UpdateClinicPhotoModal
+          isOpen={this.state.showUpdateClinicPhotoModal}
+          closeModal={() =>
+            this.setState({ showUpdateClinicPhotoModal: false })
+          }
         />
       </React.Fragment>
     );

@@ -8,6 +8,9 @@ import {
   ADD_CLINIC_REQUEST,
   ADD_CLINIC_SUCCESS,
   ADD_CLINIC_FAILURE,
+  UPDATE_CLINIC_PHOTO_REQUEST,
+  UPDATE_CLINIC_PHOTO_SUCCESS,
+  UPDATE_CLINIC_PHOTO_FAILURE,
 } from '../constants/index';
 import {
   clinicsCollection,
@@ -125,5 +128,44 @@ export const deleteClinic = (id: string, doctorId: string) => {
   }
   function failure(error: string) {
     return { type: DELETE_CLINIC_FAILURE, payload: error };
+  }
+};
+
+export const updateClinicPhoto = (
+  clinicId: string,
+  doctorId: string,
+  imageFile: any,
+  callback: Function
+) => {
+  return dispatch => {
+    dispatch(request());
+    storage
+      .ref(`clinicPhotos/${doctorId}/`)
+      .put(imageFile)
+      .then(snapshot => {
+        snapshot.ref
+          .getDownloadURL()
+          .then(imageUrl => {
+            clinicsCollection
+              .doc(clinicId)
+              .update({ imageUrl })
+              .then(() => {
+                dispatch(success());
+                callback();
+              })
+              .catch(err => dispatch(failure(err.message)));
+          })
+          .catch(err => dispatch(failure(err.message)));
+      })
+      .catch(err => dispatch(failure(err.message)));
+  };
+  function request() {
+    return { type: UPDATE_CLINIC_PHOTO_REQUEST };
+  }
+  function success() {
+    return { type: UPDATE_CLINIC_PHOTO_SUCCESS };
+  }
+  function failure(error: string) {
+    return { type: UPDATE_CLINIC_PHOTO_FAILURE, payload: error };
   }
 };
