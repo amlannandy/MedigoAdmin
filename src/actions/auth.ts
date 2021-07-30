@@ -1,4 +1,9 @@
-import { auth, firebase, doctorsCollection } from '../utils/firebase';
+import {
+  auth,
+  firebase,
+  doctorsCollection,
+  clinicsCollection,
+} from '../utils/firebase';
 
 import {
   LOGIN_REQUEST,
@@ -10,6 +15,9 @@ import {
   LOAD_USER_REQUEST,
   LOAD_USER_SUCCESS,
   LOAD_USER_FAILURE,
+  DELETE_ACCOUNT_REQUEST,
+  DELETE_ACCOUNT_SUCCESS,
+  DELETE_ACCOUNT_FAILURE,
 } from '../constants/index';
 
 export const login = (
@@ -90,4 +98,39 @@ export const logout = () => {
   function failure(error: string) {
     return { type: LOGOUT_FAILURE, payload: error };
   }
+};
+
+export const deleteAccout = (clinicId?: string) => {
+  return dispatch => {
+    dispatch(request());
+    const user = auth.currentUser;
+    const userId = user.uid;
+    user
+      .delete()
+      .then(() => {
+        doctorsCollection
+          .doc(userId)
+          .delete()
+          .then(() => {
+            if (clinicId) {
+              clinicsCollection
+                .doc(clinicId)
+                .delete()
+                .then(() => dispatch(success()));
+            } else {
+              dispatch(success());
+            }
+          });
+      })
+      .then(() => dispatch(failure('Something went wrong!')));
+    function request() {
+      return { type: DELETE_ACCOUNT_REQUEST };
+    }
+    function success() {
+      return { type: DELETE_ACCOUNT_SUCCESS };
+    }
+    function failure(error: string) {
+      return { type: DELETE_ACCOUNT_FAILURE, payload: error };
+    }
+  };
 };

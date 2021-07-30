@@ -8,6 +8,9 @@ import {
   LOGOUT_REQUEST,
   LOGOUT_SUCCESS,
   LOGOUT_FAILURE,
+  DELETE_ACCOUNT_REQUEST,
+  DELETE_ACCOUNT_SUCCESS,
+  DELETE_ACCOUNT_FAILURE,
   ADD_CLINIC_SUCCESS,
   DELETE_CLINIC_SUCCESS,
 } from '../constants/index';
@@ -18,6 +21,7 @@ export interface AuthState {
     error: string;
     message: string;
     isLoading: boolean;
+    isDeleting: boolean;
     isInitialized: boolean;
     isAuthenticated: boolean;
     isAuthenticating: boolean;
@@ -30,6 +34,7 @@ const initialState: AuthState = {
     error: '',
     message: '',
     isLoading: false,
+    isDeleting: false,
     isInitialized: false,
     isAuthenticated: false,
     isAuthenticating: false,
@@ -111,6 +116,32 @@ const auth = (state: AuthState = initialState, action: any) => {
         authActions: {
           ...state.authActions,
           isLoading: false,
+          error: payload,
+        },
+      };
+    case DELETE_ACCOUNT_REQUEST:
+      return {
+        ...state,
+        authActions: {
+          ...state.authActions,
+          isDeleting: true,
+        },
+      };
+    case DELETE_ACCOUNT_SUCCESS:
+      return {
+        ...state,
+        authActions: {
+          ...state.authActions,
+          isDeleting: false,
+          isAuthenticated: false,
+        },
+      };
+    case DELETE_ACCOUNT_FAILURE:
+      return {
+        ...state,
+        authActions: {
+          ...state.authActions,
+          isDeleting: false,
           error: payload,
         },
       };
