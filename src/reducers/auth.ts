@@ -8,6 +8,9 @@ import {
   LOGOUT_REQUEST,
   LOGOUT_SUCCESS,
   LOGOUT_FAILURE,
+  UPDATE_PASSWORD_REQUEST,
+  UPDATE_PASSWORD_SUCCESS,
+  UPDATE_PASSWORD_FAILURE,
   DELETE_ACCOUNT_REQUEST,
   DELETE_ACCOUNT_SUCCESS,
   DELETE_ACCOUNT_FAILURE,
@@ -25,6 +28,7 @@ export interface AuthState {
     isInitialized: boolean;
     isAuthenticated: boolean;
     isAuthenticating: boolean;
+    isUpdatingPassword: boolean;
   };
 }
 
@@ -38,6 +42,7 @@ const initialState: AuthState = {
     isInitialized: false,
     isAuthenticated: false,
     isAuthenticating: false,
+    isUpdatingPassword: false,
   },
 };
 
@@ -116,6 +121,32 @@ const auth = (state: AuthState = initialState, action: any) => {
         authActions: {
           ...state.authActions,
           isLoading: false,
+          error: payload,
+        },
+      };
+    case UPDATE_PASSWORD_REQUEST:
+      return {
+        ...state,
+        authActions: {
+          ...state.authActions,
+          isUpdatingPassword: true,
+        },
+      };
+    case UPDATE_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        authActions: {
+          ...state.authActions,
+          isUpdatingPassword: false,
+          message: payload,
+        },
+      };
+    case UPDATE_PASSWORD_FAILURE:
+      return {
+        ...state,
+        authActions: {
+          ...state.authActions,
+          isUpdatingPassword: false,
           error: payload,
         },
       };

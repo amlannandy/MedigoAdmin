@@ -15,6 +15,9 @@ import {
   LOAD_USER_REQUEST,
   LOAD_USER_SUCCESS,
   LOAD_USER_FAILURE,
+  UPDATE_PASSWORD_REQUEST,
+  UPDATE_PASSWORD_SUCCESS,
+  UPDATE_PASSWORD_FAILURE,
   DELETE_ACCOUNT_REQUEST,
   DELETE_ACCOUNT_SUCCESS,
   DELETE_ACCOUNT_FAILURE,
@@ -97,6 +100,26 @@ export const logout = () => {
   }
   function failure(error: string) {
     return { type: LOGOUT_FAILURE, payload: error };
+  }
+};
+
+export const updatePassword = (newPassword: string) => {
+  return dispatch => {
+    dispatch(request());
+    const user = auth.currentUser;
+    user
+      .updatePassword(newPassword)
+      .then(() => dispatch(success('Password updated')))
+      .catch(err => dispatch(failure(err.message)));
+  };
+  function request() {
+    return { type: UPDATE_PASSWORD_REQUEST };
+  }
+  function success(data) {
+    return { type: UPDATE_PASSWORD_SUCCESS, payload: data };
+  }
+  function failure(error: string) {
+    return { type: UPDATE_PASSWORD_FAILURE, payload: error };
   }
 };
 
