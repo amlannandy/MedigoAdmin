@@ -22,27 +22,27 @@ const Overview = Loadable({
 });
 
 const Patients = Loadable({
-  loader: () => import('./patients'),
+  loader: () => import('./patients/patients'),
   loading: Loading,
 });
 
 const Appointments = Loadable({
-  loader: () => import('./appointments'),
+  loader: () => import('./appointments/appointments'),
   loading: Loading,
 });
 
 const Clinic = Loadable({
-  loader: () => import('./clinic'),
+  loader: () => import('./clinic/clinic'),
   loading: Loading,
 });
 
 const AddPatient = Loadable({
-  loader: () => import('./addPatient'),
+  loader: () => import('./patients/addPatient'),
   loading: Loading,
 });
 
 const AddClinic = Loadable({
-  loader: () => import('./addClinic'),
+  loader: () => import('./clinic/addClinic'),
   loading: Loading,
 });
 

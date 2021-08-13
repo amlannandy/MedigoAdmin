@@ -2,9 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Modal, Form, Button } from 'semantic-ui-react';
 
-import { ClinicState } from '../../reducers/clinic';
-import { isEmail, isMobilePhone } from '../../utils/helpers';
-import { updateClinicDetails, fetchClinic } from '../../actions/index';
+import { ClinicState } from '../../../reducers/clinic';
+import { isEmail, isMobilePhone } from '../../../utils/helpers';
+import { updateClinicDetails, fetchClinic } from '../../../actions/index';
 
 interface UpdateClinicDetailsModalProps {
   clinic: ClinicState;

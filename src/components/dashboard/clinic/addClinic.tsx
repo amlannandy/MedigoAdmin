@@ -4,11 +4,11 @@ import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { Loader, Form, Icon, Message } from 'semantic-ui-react';
 
-import { AuthState } from '../../reducers/auth';
-import { addClinic } from '../../actions/index';
-import { ClinicState } from '../../reducers/clinic';
-import Placeholder from '../../static/placeholder.jpg';
-import { isEmail, isMobilePhone } from '../../utils/helpers';
+import { AuthState } from '../../../reducers/auth';
+import { addClinic } from '../../../actions/index';
+import { ClinicState } from '../../../reducers/clinic';
+import Placeholder from '../../../static/placeholder.jpg';
+import { isEmail, isMobilePhone } from '../../../utils/helpers';
 
 interface AddClinicProps extends RouteComponentProps<any> {
   auth: AuthState;

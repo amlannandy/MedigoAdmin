@@ -23,8 +23,8 @@ export const fetchPatients = (doctorId: string) => {
         const patients = docs.map(doc => {
           const data = doc.data();
           return {
-            id: doc.id,
             ...data,
+            id: doc.id,
           };
         });
         dispatch(success(patients));

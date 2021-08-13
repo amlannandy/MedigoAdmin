@@ -10,9 +10,9 @@ import {
   Message,
 } from 'semantic-ui-react';
 
-import { AuthState } from '../../reducers/auth';
-import { PatientsState } from '../../reducers/patients';
-import { fetchPatients, deletePatient } from '../../actions/index';
+import { AuthState } from '../../../reducers/auth';
+import { PatientsState } from '../../../reducers/patients';
+import { fetchPatients, deletePatient } from '../../../actions/index';
 
 interface PatientProp {
   auth: AuthState;

@@ -14,9 +14,9 @@ import {
   Checkbox,
 } from 'semantic-ui-react';
 
-import { AuthState } from '../../reducers/auth';
-import { fetchPatients, addPatient } from '../../actions/index';
-import { PatientState, PatientsState } from '../../reducers/patients';
+import { AuthState } from '../../../reducers/auth';
+import { fetchPatients, addPatient } from '../../../actions/index';
+import { PatientState, PatientsState } from '../../../reducers/patients';
 
 interface AddPatientProps extends RouteComponentProps<any> {
   auth: AuthState;

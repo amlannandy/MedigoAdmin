@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import './css/updateClinicPhotoModal.css';
 import { Modal, Header, Button, Input } from 'semantic-ui-react';
 
-import { ClinicState } from '../../reducers/clinic';
-import Placeholder from '../../static/placeholder.jpg';
-import { updateClinicPhoto, fetchClinic } from '../../actions/index';
+import { ClinicState } from '../../../reducers/clinic';
+import Placeholder from '../../../static/placeholder.jpg';
+import { updateClinicPhoto, fetchClinic } from '../../../actions/index';
 
 interface UpdateClinicPhotoModalProps {
   clinic: ClinicState;
