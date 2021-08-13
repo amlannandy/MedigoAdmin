@@ -38,7 +38,8 @@ class Index extends React.Component<IndexProps> {
     return (
       <React.Fragment>
         <Navbar />
-        {auth && auth.authActions.isLoading ? (
+        {auth &&
+        (auth.authActions.isLoading || !auth.authActions.isInitialized) ? (
           <Loader active>Loading...</Loader>
         ) : (
           <Container className='home-container'>
