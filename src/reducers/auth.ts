@@ -16,6 +16,8 @@ import {
   DELETE_ACCOUNT_FAILURE,
   ADD_CLINIC_SUCCESS,
   DELETE_CLINIC_SUCCESS,
+  REMOVE_AUTH_MESSAGE,
+  REMOVE_AUTH_ERROR,
 } from '../constants/index';
 
 export interface AuthState {
@@ -190,6 +192,22 @@ const auth = (state: AuthState = initialState, action: any) => {
         user: {
           ...state.user,
           clinicId: null,
+        },
+      };
+    case REMOVE_AUTH_MESSAGE:
+      return {
+        ...state,
+        authActions: {
+          ...state.authActions,
+          message: '',
+        },
+      };
+    case REMOVE_AUTH_ERROR:
+      return {
+        ...state,
+        authActions: {
+          ...state.authActions,
+          error: '',
         },
       };
     default:

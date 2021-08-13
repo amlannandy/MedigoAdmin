@@ -21,6 +21,8 @@ import {
   DELETE_ACCOUNT_REQUEST,
   DELETE_ACCOUNT_SUCCESS,
   DELETE_ACCOUNT_FAILURE,
+  REMOVE_AUTH_MESSAGE,
+  REMOVE_AUTH_ERROR,
 } from '../constants/index';
 
 export const login = (
@@ -109,8 +111,18 @@ export const updatePassword = (newPassword: string) => {
     const user = auth.currentUser;
     user
       .updatePassword(newPassword)
-      .then(() => dispatch(success('Password updated')))
-      .catch(err => dispatch(failure(err.message)));
+      .then(() => {
+        dispatch(success('Password updated'));
+        setTimeout(() => {
+          dispatch(removeMessage());
+        }, 3000);
+      })
+      .catch(err => {
+        dispatch(failure(err.message));
+        setTimeout(() => {
+          dispatch(removeError());
+        }, 3000);
+      });
   };
   function request() {
     return { type: UPDATE_PASSWORD_REQUEST };
@@ -120,6 +132,12 @@ export const updatePassword = (newPassword: string) => {
   }
   function failure(error: string) {
     return { type: UPDATE_PASSWORD_FAILURE, payload: error };
+  }
+  function removeMessage() {
+    return { type: REMOVE_AUTH_MESSAGE };
+  }
+  function removeError() {
+    return { type: REMOVE_AUTH_ERROR };
   }
 };
 
