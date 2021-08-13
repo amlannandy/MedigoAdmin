@@ -22,7 +22,12 @@ Medigo Admin is a Web-based Teleconsultation and Electronic Medical Record (EMR)
 
 ## Features
 
-
+Medigo is intented to be a one-stop solution for Doctors, especially those who have their own clinic, to manage their patient records, organize clinic data, create appointment schedules and consult patients online. It provides the following features -
+* Register your clinic where users can book offline appointments.
+* Create appointment slots for the next 7 days which users can book for either offline/online consultations.
+* Consult patients only via `text messaging` or `audio/video calling`.
+* After a consultation, issue a prescription to the patient with your digital signature.
+* Maintain patient records and medical reports.
 
 ## Local Development Setup
 
