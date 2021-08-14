@@ -24,7 +24,22 @@ import {
 } from '../constants/index';
 
 export interface AuthState {
-  user: any;
+  user: {
+    id: string;
+    name: string;
+    age: number;
+    email: string;
+    imageUrl: string;
+    field: string;
+    hospital: string;
+    experience: number;
+    clinicId: string;
+    location: {
+      latitude: number;
+      longitude: number;
+    };
+    isVerified: boolean;
+  };
   authActions: {
     error: string;
     message: string;
