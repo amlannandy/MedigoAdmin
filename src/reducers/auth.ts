@@ -18,6 +18,9 @@ import {
   DELETE_CLINIC_SUCCESS,
   REMOVE_AUTH_MESSAGE,
   REMOVE_AUTH_ERROR,
+  VERIFY_PASSWORD_REQUEST,
+  VERIFY_PASSWORD_SUCCESS,
+  VERIFY_PASSWORD_FAILURE,
 } from '../constants/index';
 
 export interface AuthState {
@@ -31,6 +34,7 @@ export interface AuthState {
     isAuthenticated: boolean;
     isAuthenticating: boolean;
     isUpdatingPassword: boolean;
+    isVerifyingPassword: boolean;
   };
 }
 
@@ -45,6 +49,7 @@ const initialState: AuthState = {
     isAuthenticated: false,
     isAuthenticating: false,
     isUpdatingPassword: false,
+    isVerifyingPassword: false,
   },
 };
 
@@ -163,6 +168,7 @@ const auth = (state: AuthState = initialState, action: any) => {
     case DELETE_ACCOUNT_SUCCESS:
       return {
         ...state,
+        user: null,
         authActions: {
           ...state.authActions,
           isDeleting: false,
@@ -208,6 +214,31 @@ const auth = (state: AuthState = initialState, action: any) => {
         authActions: {
           ...state.authActions,
           error: '',
+        },
+      };
+    case VERIFY_PASSWORD_REQUEST:
+      return {
+        ...state,
+        authActions: {
+          ...state.authActions,
+          isVerifyingPassword: true,
+        },
+      };
+    case VERIFY_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        authActions: {
+          ...state.authActions,
+          isVerifyingPassword: false,
+        },
+      };
+    case VERIFY_PASSWORD_FAILURE:
+      return {
+        ...state,
+        authActions: {
+          ...state.authActions,
+          error: payload,
+          isVerifyingPassword: false,
         },
       };
     default:

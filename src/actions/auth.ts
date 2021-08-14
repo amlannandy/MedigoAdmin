@@ -23,6 +23,9 @@ import {
   DELETE_ACCOUNT_FAILURE,
   REMOVE_AUTH_MESSAGE,
   REMOVE_AUTH_ERROR,
+  VERIFY_PASSWORD_REQUEST,
+  VERIFY_PASSWORD_SUCCESS,
+  VERIFY_PASSWORD_FAILURE,
 } from '../constants/index';
 
 export const login = (
@@ -138,6 +141,32 @@ export const updatePassword = (newPassword: string) => {
   }
   function removeError() {
     return { type: REMOVE_AUTH_ERROR };
+  }
+};
+
+export const verifyPassword = (
+  email: string,
+  password: string,
+  callback: Function
+) => {
+  return dispatch => {
+    dispatch(request());
+    auth
+      .signInWithEmailAndPassword(email, password)
+      .then(() => {
+        callback();
+        dispatch(success());
+      })
+      .catch(err => dispatch(failure(err.message)));
+  };
+  function request() {
+    return { type: VERIFY_PASSWORD_REQUEST };
+  }
+  function success() {
+    return { type: VERIFY_PASSWORD_SUCCESS };
+  }
+  function failure(error: string) {
+    return { type: VERIFY_PASSWORD_FAILURE, payload: error };
   }
 };
 

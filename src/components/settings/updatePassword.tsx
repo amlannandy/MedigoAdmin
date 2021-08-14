@@ -87,11 +87,15 @@ class UpdatePassword extends React.Component<
           <Loader active>Updating Password...</Loader>
         ) : (
           <React.Fragment>
-            <Header
-              as='h2'
-              content='Update Password'
-              subheader='Change your account password here'
-            />
+            <Header as='h2'>
+              <Icon name='edit' />
+              <Header.Content>
+                Update Password
+                <Header.Subheader>
+                  Change your account password here
+                </Header.Subheader>
+              </Header.Content>
+            </Header>
             {error ? (
               <Message negative>
                 <Message.Header>Error</Message.Header>
