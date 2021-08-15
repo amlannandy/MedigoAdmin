@@ -8,6 +8,9 @@ import {
   DELETE_PATIENT_REQUEST,
   DELETE_PATIENT_SUCCESS,
   DELETE_PATIENT_FAILURE,
+  FETCH_PATIENT_REQUEST,
+  FETCH_PATIENT_SUCCESS,
+  FETCH_PATIENT_FAILURE,
 } from '../constants/index';
 
 export interface PatientState {
@@ -128,6 +131,32 @@ const reducer = (state: PatientsState = initialState, action: any) => {
         patientActions: {
           ...state.patientActions,
           isDeleting: false,
+          error: payload,
+        },
+      };
+    case FETCH_PATIENT_REQUEST:
+      return {
+        ...state,
+        patientActions: {
+          ...state.patientActions,
+          isFetching: true,
+        },
+      };
+    case FETCH_PATIENT_SUCCESS:
+      return {
+        ...state,
+        patient: payload,
+        patientActions: {
+          ...state.patientActions,
+          isFetching: false,
+        },
+      };
+    case FETCH_PATIENT_FAILURE:
+      return {
+        ...state,
+        patientActions: {
+          ...state.patientActions,
+          isFetching: false,
           error: payload,
         },
       };

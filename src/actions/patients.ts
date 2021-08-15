@@ -10,6 +10,9 @@ import {
   DELETE_PATIENT_REQUEST,
   DELETE_PATIENT_SUCCESS,
   DELETE_PATIENT_FAILURE,
+  FETCH_PATIENT_REQUEST,
+  FETCH_PATIENT_SUCCESS,
+  FETCH_PATIENT_FAILURE,
 } from '../constants/patients';
 
 export const fetchPatients = (doctorId: string) => {
@@ -84,5 +87,32 @@ export const deletePatient = (id: string, callback: () => void) => {
   }
   function failure(error: string) {
     return { type: DELETE_PATIENT_FAILURE, payload: error };
+  }
+};
+
+export const fetchPatient = (id: string) => {
+  return dispatch => {
+    dispatch(request());
+    patientsCollection
+      .doc(id)
+      .get()
+      .then(doc => {
+        const data = doc.data();
+        const patient = {
+          id: doc.id,
+          ...data,
+        };
+        dispatch(success(patient));
+      })
+      .catch(err => dispatch(failure(err.message)));
+  };
+  function request() {
+    return { type: FETCH_PATIENT_REQUEST };
+  }
+  function success(data: any) {
+    return { type: FETCH_PATIENT_SUCCESS, payload: data };
+  }
+  function failure(error: string) {
+    return { type: FETCH_PATIENT_FAILURE, payload: error };
   }
 };
