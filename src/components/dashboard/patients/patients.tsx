@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, RouteComponentProps } from 'react-router-dom';
 import {
   Loader,
   Table,
@@ -14,7 +14,7 @@ import { AuthState } from '../../../reducers/auth';
 import { PatientsState } from '../../../reducers/patients';
 import { fetchPatients, deletePatient } from '../../../actions/index';
 
-interface PatientProp {
+interface PatientProp extends RouteComponentProps {
   auth: AuthState;
   patients: PatientsState;
   fetchPatients: (id: string) => void;
@@ -57,7 +57,7 @@ class Patients extends React.Component<PatientProp, PatientState> {
   };
 
   render() {
-    const { patients } = this.props;
+    const { patients, history } = this.props;
 
     return (
       <React.Fragment>
@@ -94,7 +94,9 @@ class Patients extends React.Component<PatientProp, PatientState> {
                     <Table.Cell>{patient.gender}</Table.Cell>
                     <Table.Cell>{patient.address.city}</Table.Cell>
                     <Table.Cell>
-                      <Button icon>
+                      <Button
+                        icon
+                        onClick={() => history.push(`/patients/${patient.id}`)}>
                         <Icon name='angle right' />
                       </Button>
                       <Button icon>
