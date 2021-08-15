@@ -99,8 +99,8 @@ export const fetchPatient = (id: string) => {
       .then(doc => {
         const data = doc.data();
         const patient = {
-          id: doc.id,
           ...data,
+          id: doc.id,
         };
         dispatch(success(patient));
       })
