@@ -29,6 +29,8 @@ export interface AuthState {
     name: string;
     age: number;
     email: string;
+    phone: string;
+    city: string;
     imageUrl: string;
     field: string;
     hospital: string;
@@ -39,6 +41,7 @@ export interface AuthState {
       longitude: number;
     };
     isVerified: boolean;
+    createdAt: any;
   };
   authActions: {
     error: string;
