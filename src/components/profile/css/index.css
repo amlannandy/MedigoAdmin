@@ -9,3 +9,9 @@
   display: flex;
   align-items: center;
 }
+.card {
+  display: inline !important;
+}
+.fluid-card {
+  width: 100% !important;
+}

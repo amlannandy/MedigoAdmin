@@ -68,104 +68,114 @@ class Index extends React.Component<IndexProps> {
                   </Card>
                 </Grid.Column>
                 <Grid.Column width={12}>
-                  <Card.Group>
-                    <Card color='green'>
-                      <Card.Content>
-                        <Card.Header>
-                          <Grid.Row>
-                            Personal Details
-                            <Grid.Column floated='right'>
-                              <Icon className='icon-button' name='edit' />
-                            </Grid.Column>
-                          </Grid.Row>
-                        </Card.Header>
-                      </Card.Content>
-                      <Card.Content>
-                        <List>
-                          <List.Item>
-                            <List.Icon name='user' />
-                            <List.Content>
-                              <List.Header as='a'>Name</List.Header>
-                              <List.Description>{user.name}</List.Description>
-                            </List.Content>
-                          </List.Item>
-                          <List.Item>
-                            <List.Icon name='mail' />
-                            <List.Content>
-                              <List.Header as='a'>Email Address</List.Header>
-                              <List.Description>{user.email}</List.Description>
-                            </List.Content>
-                          </List.Item>
-                          <List.Item>
-                            <List.Icon name='phone' />
-                            <List.Content>
-                              <List.Header as='a'>Phone Number</List.Header>
-                              <List.Description>{user.phone}</List.Description>
-                            </List.Content>
-                          </List.Item>
-                          <List.Item>
-                            <List.Icon name='user secret' />
-                            <List.Content>
-                              <List.Header as='a'>Age</List.Header>
-                              <List.Description>
-                                {user.age} years
-                              </List.Description>
-                            </List.Content>
-                          </List.Item>
-                        </List>
-                      </Card.Content>
-                    </Card>
-                    <Card color='orange'>
-                      <Card.Content>
-                        <Card.Header>
-                          <Grid.Row>
-                            Professional Details
-                            <Grid.Column floated='right'>
-                              <Icon className='icon-button' name='edit' />
-                            </Grid.Column>
-                          </Grid.Row>
-                        </Card.Header>
-                      </Card.Content>
-                      <Card.Content>
-                        <List>
-                          <List.Item>
-                            <List.Icon name='users' />
-                            <List.Content>
-                              <List.Header as='a'>Field</List.Header>
-                              <List.Description>{user.field}</List.Description>
-                            </List.Content>
-                          </List.Item>
-                          <List.Item>
-                            <List.Icon name='hospital' />
-                            <List.Content>
-                              <List.Header as='a'>Hospital</List.Header>
-                              <List.Description>
-                                {user.hospital}
-                              </List.Description>
-                            </List.Content>
-                          </List.Item>
-                          <List.Item>
-                            <List.Icon name='time' />
-                            <List.Content>
-                              <List.Header as='a'>
-                                Years of Experience
-                              </List.Header>
-                              <List.Description>
-                                {user.experience} years
-                              </List.Description>
-                            </List.Content>
-                          </List.Item>
-                          <List.Item>
-                            <List.Icon name='home' />
-                            <List.Content>
-                              <List.Header as='a'>City</List.Header>
-                              <List.Description>{user.city}</List.Description>
-                            </List.Content>
-                          </List.Item>
-                        </List>
-                      </Card.Content>
-                    </Card>
-                  </Card.Group>
+                  <Grid.Row>
+                    <Grid.Column width={8}>
+                      <Card color='green' className='card'>
+                        <Card.Content>
+                          <Card.Header>
+                            <Grid.Row>
+                              Personal Details
+                              <Grid.Column floated='right'>
+                                <Icon className='icon-button' name='edit' />
+                              </Grid.Column>
+                            </Grid.Row>
+                          </Card.Header>
+                        </Card.Content>
+                        <Card.Content>
+                          <List>
+                            <List.Item>
+                              <List.Icon name='user' />
+                              <List.Content>
+                                <List.Header as='a'>Name</List.Header>
+                                <List.Description>{user.name}</List.Description>
+                              </List.Content>
+                            </List.Item>
+                            <List.Item>
+                              <List.Icon name='mail' />
+                              <List.Content>
+                                <List.Header as='a'>Email Address</List.Header>
+                                <List.Description>
+                                  {user.email}
+                                </List.Description>
+                              </List.Content>
+                            </List.Item>
+                            <List.Item>
+                              <List.Icon name='phone' />
+                              <List.Content>
+                                <List.Header as='a'>Phone Number</List.Header>
+                                <List.Description>
+                                  {user.phone}
+                                </List.Description>
+                              </List.Content>
+                            </List.Item>
+                            <List.Item>
+                              <List.Icon name='user secret' />
+                              <List.Content>
+                                <List.Header as='a'>Age</List.Header>
+                                <List.Description>
+                                  {user.age} years
+                                </List.Description>
+                              </List.Content>
+                            </List.Item>
+                          </List>
+                        </Card.Content>
+                      </Card>
+                    </Grid.Column>
+                    <Grid.Column width={8}>
+                      <Card color='orange' className='card fluid-card'>
+                        <Card.Content>
+                          <Card.Header>
+                            <Grid.Row>
+                              Professional Details
+                              <Grid.Column floated='right'>
+                                <Icon className='icon-button' name='edit' />
+                              </Grid.Column>
+                            </Grid.Row>
+                          </Card.Header>
+                        </Card.Content>
+                        <Card.Content>
+                          <List>
+                            <List.Item>
+                              <List.Icon name='users' />
+                              <List.Content>
+                                <List.Header as='a'>Field</List.Header>
+                                <List.Description>
+                                  {user.field}
+                                </List.Description>
+                              </List.Content>
+                            </List.Item>
+                            <List.Item>
+                              <List.Icon name='hospital' />
+                              <List.Content>
+                                <List.Header as='a'>Hospital</List.Header>
+                                <List.Description>
+                                  {user.hospital}
+                                </List.Description>
+                              </List.Content>
+                            </List.Item>
+                            <List.Item>
+                              <List.Icon name='time' />
+                              <List.Content>
+                                <List.Header as='a'>
+                                  Years of Experience
+                                </List.Header>
+                                <List.Description>
+                                  {user.experience} years
+                                </List.Description>
+                              </List.Content>
+                            </List.Item>
+                            <List.Item>
+                              <List.Icon name='home' />
+                              <List.Content>
+                                <List.Header as='a'>City</List.Header>
+                                <List.Description>{user.city}</List.Description>
+                              </List.Content>
+                            </List.Item>
+                          </List>
+                        </Card.Content>
+                      </Card>
+                    </Grid.Column>
+                  </Grid.Row>
                   <Header color='blue'>
                     <Icon name='pin' size='tiny' />
                     Your Location
