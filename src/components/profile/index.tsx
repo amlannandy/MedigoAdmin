@@ -14,6 +14,7 @@ import {
 
 import './css/index.css';
 import { AuthState } from '../../reducers/auth';
+import UpdatePhotoModal from './updatePhotoModal';
 import EditBasicDetailsModal from './editBasicDetailsModal';
 import EditProfessionalDetailsModal from './editProfessionalDetailsModal';
 
@@ -22,12 +23,14 @@ interface IndexProps {
 }
 
 interface IndexState {
+  showUpdatePhotoModal: boolean;
   showBasicDetailsModal: boolean;
   showProfessionalDetailsModal: boolean;
 }
 
 class Index extends React.Component<IndexProps> {
   state = {
+    showUpdatePhotoModal: false,
     showBasicDetailsModal: false,
     showProfessionalDetailsModal: false,
   };
@@ -60,7 +63,8 @@ class Index extends React.Component<IndexProps> {
                           corner: 'right',
                           icon: 'save',
                           className: 'icon-button',
-                          onClick: () => console.log('Test'),
+                          onClick: () =>
+                            this.setState({ showUpdatePhotoModal: true }),
                         }}
                       />
                       <Card.Content>
@@ -241,6 +245,10 @@ class Index extends React.Component<IndexProps> {
                 </Grid.Row>
               </Grid>
             </React.Fragment>
+            <UpdatePhotoModal
+              isOpen={this.state.showUpdatePhotoModal}
+              closeModal={() => this.setState({ showUpdatePhotoModal: false })}
+            />
             <EditBasicDetailsModal
               isOpen={this.state.showBasicDetailsModal}
               closeModal={() => this.setState({ showBasicDetailsModal: false })}

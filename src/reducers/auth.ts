@@ -30,6 +30,9 @@ import {
   UPDATE_EMAIL_REQUEST,
   UPDATE_EMAIL_SUCCESS,
   UPDATE_EMAIL_FAILURE,
+  UPDATE_PHOTO_REQUEST,
+  UPDATE_PHOTO_SUCCESS,
+  UPDATE_PHOTO_FAILURE,
 } from '../constants/index';
 
 export interface AuthState {
@@ -300,6 +303,7 @@ const auth = (state: AuthState = initialState, action: any) => {
       };
     case UPDATE_USER_REQUEST:
     case UPDATE_EMAIL_REQUEST:
+    case UPDATE_PHOTO_REQUEST:
       return {
         ...state,
         authActions: {
@@ -309,6 +313,7 @@ const auth = (state: AuthState = initialState, action: any) => {
       };
     case UPDATE_USER_SUCCESS:
     case UPDATE_EMAIL_SUCCESS:
+    case UPDATE_PHOTO_SUCCESS:
       return {
         ...state,
         authActions: {
@@ -318,6 +323,7 @@ const auth = (state: AuthState = initialState, action: any) => {
       };
     case UPDATE_USER_FAILURE:
     case UPDATE_EMAIL_FAILURE:
+    case UPDATE_PHOTO_FAILURE:
       return {
         ...state,
         authActions: {

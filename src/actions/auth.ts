@@ -3,6 +3,7 @@ import {
   firebase,
   doctorsCollection,
   clinicsCollection,
+  storage,
 } from '../utils/firebase';
 import {
   LOGIN_REQUEST,
@@ -34,6 +35,9 @@ import {
   UPDATE_EMAIL_REQUEST,
   UPDATE_EMAIL_SUCCESS,
   UPDATE_EMAIL_FAILURE,
+  UPDATE_PHOTO_REQUEST,
+  UPDATE_PHOTO_SUCCESS,
+  UPDATE_PHOTO_FAILURE,
 } from '../constants/index';
 
 export const login = (
@@ -291,5 +295,39 @@ export const changeEmail = (email: string, callback: Function) => {
   }
   function failure(error: string) {
     return { type: UPDATE_EMAIL_FAILURE, payload: error };
+  }
+};
+
+export const updatePhoto = (id: string, file: any, callback: Function) => {
+  return dispatch => {
+    dispatch(request());
+    storage
+      .ref(`profilePhotos/${id}/`)
+      .put(file)
+      .then(snapshot => {
+        snapshot.ref
+          .getDownloadURL()
+          .then(imageUrl => {
+            doctorsCollection
+              .doc(id)
+              .update({ imageUrl })
+              .then(() => {
+                dispatch(success());
+                callback();
+              })
+              .catch(err => dispatch(failure(err.message)));
+          })
+          .catch(err => dispatch(failure(err.message)));
+      })
+      .catch(err => dispatch(failure(err.message)));
+  };
+  function request() {
+    return { type: UPDATE_PHOTO_REQUEST };
+  }
+  function success() {
+    return { type: UPDATE_PHOTO_SUCCESS };
+  }
+  function failure(error: string) {
+    return { type: UPDATE_PHOTO_FAILURE, payload: error };
   }
 };
