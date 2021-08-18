@@ -15,6 +15,7 @@ import {
 import './css/index.css';
 import { AuthState } from '../../reducers/auth';
 import EditBasicDetailsModal from './editBasicDetailsModal';
+import EditProfessionalDetailsModal from './editProfessionalDetailsModal';
 
 interface IndexProps {
   auth: AuthState;
@@ -22,11 +23,13 @@ interface IndexProps {
 
 interface IndexState {
   showBasicDetailsModal: boolean;
+  showProfessionalDetailsModal: boolean;
 }
 
 class Index extends React.Component<IndexProps> {
   state = {
     showBasicDetailsModal: false,
+    showProfessionalDetailsModal: false,
   };
 
   render() {
@@ -150,7 +153,15 @@ class Index extends React.Component<IndexProps> {
                               <Grid.Row>
                                 Professional Details
                                 <Grid.Column floated='right'>
-                                  <Icon className='icon-button' name='edit' />
+                                  <Icon
+                                    className='icon-button'
+                                    name='edit'
+                                    onClick={() =>
+                                      this.setState({
+                                        showProfessionalDetailsModal: true,
+                                      })
+                                    }
+                                  />
                                 </Grid.Column>
                               </Grid.Row>
                             </Card.Header>
@@ -233,6 +244,12 @@ class Index extends React.Component<IndexProps> {
             <EditBasicDetailsModal
               isOpen={this.state.showBasicDetailsModal}
               closeModal={() => this.setState({ showBasicDetailsModal: false })}
+            />
+            <EditProfessionalDetailsModal
+              isOpen={this.state.showProfessionalDetailsModal}
+              closeModal={() =>
+                this.setState({ showProfessionalDetailsModal: false })
+              }
             />
           </React.Fragment>
         )}
