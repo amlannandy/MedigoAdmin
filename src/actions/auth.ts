@@ -26,6 +26,12 @@ import {
   VERIFY_PASSWORD_REQUEST,
   VERIFY_PASSWORD_SUCCESS,
   VERIFY_PASSWORD_FAILURE,
+  RELOAD_USER_REQUEST,
+  RELOAD_USER_SUCCESS,
+  RELOAD_USER_FAILURE,
+  UPDATE_USER_REQUEST,
+  UPDATE_USER_SUCCESS,
+  UPDATE_USER_FAILURE,
 } from '../constants/index';
 
 export const login = (
@@ -203,4 +209,56 @@ export const deleteAccout = (clinicId?: string) => {
       return { type: DELETE_ACCOUNT_FAILURE, payload: error };
     }
   };
+};
+
+export const reloadUser = () => {
+  return dispatch => {
+    dispatch(request());
+    const user = auth.currentUser;
+    const userId = user.uid;
+    doctorsCollection
+      .doc(userId)
+      .get()
+      .then(snapshot => {
+        if (snapshot.exists) {
+          const userDoc = snapshot.data() as object;
+          dispatch(success({ ...userDoc, id: userId }));
+        } else {
+          dispatch(failure('Profile not found!'));
+        }
+      })
+      .catch(err => dispatch(failure(err.message)));
+  };
+  function request() {
+    return { type: RELOAD_USER_REQUEST };
+  }
+  function success(data: any) {
+    return { type: RELOAD_USER_SUCCESS, payload: data };
+  }
+  function failure(error: string) {
+    return { type: RELOAD_USER_FAILURE, payload: error };
+  }
+};
+
+export const updateUser = (id: string, data: any, callback: Function) => {
+  return dispatch => {
+    dispatch(request());
+    doctorsCollection
+      .doc(id)
+      .update(data)
+      .then(() => {
+        dispatch(success());
+        callback();
+      })
+      .catch(err => dispatch(failure(err.message)));
+  };
+  function request() {
+    return { type: UPDATE_USER_REQUEST };
+  }
+  function success() {
+    return { type: UPDATE_USER_SUCCESS };
+  }
+  function failure(error: string) {
+    return { type: UPDATE_USER_FAILURE, payload: error };
+  }
 };

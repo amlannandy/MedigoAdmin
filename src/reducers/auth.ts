@@ -21,6 +21,12 @@ import {
   VERIFY_PASSWORD_REQUEST,
   VERIFY_PASSWORD_SUCCESS,
   VERIFY_PASSWORD_FAILURE,
+  UPDATE_USER_REQUEST,
+  UPDATE_USER_SUCCESS,
+  UPDATE_USER_FAILURE,
+  RELOAD_USER_REQUEST,
+  RELOAD_USER_SUCCESS,
+  RELOAD_USER_FAILURE,
 } from '../constants/index';
 
 export interface AuthState {
@@ -47,7 +53,9 @@ export interface AuthState {
     error: string;
     message: string;
     isLoading: boolean;
+    isUpdating: boolean;
     isDeleting: boolean;
+    isReloading: boolean;
     isInitialized: boolean;
     isAuthenticated: boolean;
     isAuthenticating: boolean;
@@ -62,7 +70,9 @@ const initialState: AuthState = {
     error: '',
     message: '',
     isLoading: false,
+    isUpdating: false,
     isDeleting: false,
+    isReloading: false,
     isInitialized: false,
     isAuthenticated: false,
     isAuthenticating: false,
@@ -257,6 +267,57 @@ const auth = (state: AuthState = initialState, action: any) => {
           ...state.authActions,
           error: payload,
           isVerifyingPassword: false,
+        },
+      };
+    case RELOAD_USER_REQUEST:
+      return {
+        ...state,
+        authActions: {
+          ...state.authActions,
+          isReloading: true,
+        },
+      };
+    case RELOAD_USER_SUCCESS:
+      return {
+        ...state,
+        user: payload,
+        authActions: {
+          ...state.authActions,
+          isReloading: false,
+        },
+      };
+    case RELOAD_USER_FAILURE:
+      return {
+        ...state,
+        authActions: {
+          ...state.authActions,
+          isReloading: false,
+          error: payload,
+        },
+      };
+    case UPDATE_USER_REQUEST:
+      return {
+        ...state,
+        authActions: {
+          ...state.authActions,
+          isUpdating: true,
+        },
+      };
+    case UPDATE_USER_SUCCESS:
+      return {
+        ...state,
+        authActions: {
+          ...state.authActions,
+          isUpdating: false,
+        },
+      };
+    case UPDATE_USER_FAILURE:
+      return {
+        ...state,
+        authActions: {
+          ...state.authActions,
+          isUpdating: false,
+          error: payload,
         },
       };
     default:
