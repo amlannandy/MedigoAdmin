@@ -14,6 +14,11 @@ const SettingsOverview = Loadable({
   loading: Loading,
 });
 
+const ChangeEmail = Loadable({
+  loader: () => import('./changeEmail'),
+  loading: Loading,
+});
+
 const UpdatePassword = Loadable({
   loader: () => import('./updatePassword'),
   loading: Loading,
@@ -36,6 +41,10 @@ class Index extends React.Component<RouteComponentProps> {
           </Grid.Column>
           <Grid.Column width={12}>
             <Switch>
+              <Route
+                path={`${match.url}/change-email`}
+                component={ChangeEmail}
+              />
               <Route
                 path={`${match.url}/delete-account`}
                 component={DeleteAccount}

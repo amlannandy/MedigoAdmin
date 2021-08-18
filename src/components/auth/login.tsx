@@ -20,6 +20,7 @@ import { isEmail } from '../../utils/helpers';
 interface LoginProps extends RouteComponentProps<any> {
   authActions: {
     isLoading: boolean;
+    isInitialized: boolean;
     isAuthenticated: boolean;
     isAuthenticating: boolean;
     error: string;
@@ -85,7 +86,7 @@ class Login extends React.Component<LoginProps, LoginState> {
 
   render() {
     const {
-      authActions: { isLoading, isAuthenticating, error },
+      authActions: { isLoading, isAuthenticating, error, isInitialized },
     } = this.props;
 
     return (
@@ -95,7 +96,7 @@ class Login extends React.Component<LoginProps, LoginState> {
             <Loader indeterminate>Authenticating..</Loader>
           </Dimmer>
         ) : null}
-        {isLoading ? (
+        {isLoading || !isInitialized ? (
           <Dimmer active>
             <Loader indeterminate>Please wait..</Loader>
           </Dimmer>

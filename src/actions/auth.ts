@@ -4,7 +4,6 @@ import {
   doctorsCollection,
   clinicsCollection,
 } from '../utils/firebase';
-
 import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
@@ -32,6 +31,9 @@ import {
   UPDATE_USER_REQUEST,
   UPDATE_USER_SUCCESS,
   UPDATE_USER_FAILURE,
+  UPDATE_EMAIL_REQUEST,
+  UPDATE_EMAIL_SUCCESS,
+  UPDATE_EMAIL_FAILURE,
 } from '../constants/index';
 
 export const login = (
@@ -260,5 +262,34 @@ export const updateUser = (id: string, data: any, callback: Function) => {
   }
   function failure(error: string) {
     return { type: UPDATE_USER_FAILURE, payload: error };
+  }
+};
+
+export const changeEmail = (email: string, callback: Function) => {
+  return dispatch => {
+    dispatch(request());
+    const user = auth.currentUser;
+    user
+      .updateEmail(email)
+      .then(() => {
+        doctorsCollection
+          .doc(user.uid)
+          .update({ email })
+          .then(() => {
+            dispatch(success());
+            callback();
+          })
+          .catch(err => dispatch(failure(err.message)));
+      })
+      .catch(err => dispatch(failure(err.message)));
+  };
+  function request() {
+    return { type: UPDATE_EMAIL_REQUEST };
+  }
+  function success() {
+    return { type: UPDATE_EMAIL_SUCCESS };
+  }
+  function failure(error: string) {
+    return { type: UPDATE_EMAIL_FAILURE, payload: error };
   }
 };

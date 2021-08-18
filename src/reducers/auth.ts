@@ -27,6 +27,9 @@ import {
   RELOAD_USER_REQUEST,
   RELOAD_USER_SUCCESS,
   RELOAD_USER_FAILURE,
+  UPDATE_EMAIL_REQUEST,
+  UPDATE_EMAIL_SUCCESS,
+  UPDATE_EMAIL_FAILURE,
 } from '../constants/index';
 
 export interface AuthState {
@@ -296,6 +299,7 @@ const auth = (state: AuthState = initialState, action: any) => {
         },
       };
     case UPDATE_USER_REQUEST:
+    case UPDATE_EMAIL_REQUEST:
       return {
         ...state,
         authActions: {
@@ -304,6 +308,7 @@ const auth = (state: AuthState = initialState, action: any) => {
         },
       };
     case UPDATE_USER_SUCCESS:
+    case UPDATE_EMAIL_SUCCESS:
       return {
         ...state,
         authActions: {
@@ -312,6 +317,7 @@ const auth = (state: AuthState = initialState, action: any) => {
         },
       };
     case UPDATE_USER_FAILURE:
+    case UPDATE_EMAIL_FAILURE:
       return {
         ...state,
         authActions: {

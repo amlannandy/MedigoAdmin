@@ -61,7 +61,7 @@ interface IndexProps {
 class Index extends React.Component<IndexProps> {
   componentDidMount() {
     const { auth, fetchAppointments, fetchPatients, fetchClinic } = this.props;
-    if (auth.authActions.isAuthenticated) {
+    if (auth.authActions.isAuthenticated && auth.user) {
       const userId = auth.user.id;
       const clinicId = auth.user.clinicId;
       fetchPatients(userId);

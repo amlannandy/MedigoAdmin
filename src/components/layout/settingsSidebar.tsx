@@ -31,6 +31,16 @@ class SettingsSidebar extends React.Component<SettingsSidebarProps> {
           Overview
         </Menu.Item>
         <Menu.Item
+          name='changeEmail'
+          color='blue'
+          as={Link}
+          to={`${url}/change-email`}
+          active={activeItem === 'changeEmail'}
+          onClick={this.handleItemClick}>
+          <Icon name='mail' />
+          Change Email Address
+        </Menu.Item>
+        <Menu.Item
           name='updatePassword'
           color='blue'
           as={Link}
