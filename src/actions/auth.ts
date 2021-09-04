@@ -12,6 +12,9 @@ import {
   LOGOUT_REQUEST,
   LOGOUT_SUCCESS,
   LOGOUT_FAILURE,
+  REGISTER_REQUEST,
+  REGISTER_SUCCESS,
+  REGISTER_FAILURE,
   LOAD_USER_REQUEST,
   LOAD_USER_SUCCESS,
   LOAD_USER_FAILURE,
@@ -38,6 +41,7 @@ import {
   UPDATE_PHOTO_REQUEST,
   UPDATE_PHOTO_SUCCESS,
   UPDATE_PHOTO_FAILURE,
+  LOAD_INCOMPLETE_USER,
 } from '../constants/index';
 
 export const login = (
@@ -69,6 +73,33 @@ export const login = (
   }
 };
 
+export const register = (
+  email: string,
+  password: string,
+  callback: Function
+) => {
+  return dispatch => {
+    dispatch(request());
+    auth
+      .createUserWithEmailAndPassword(email, password)
+      .then(() => {
+        dispatch(loadUser());
+        dispatch(success());
+        callback();
+      })
+      .catch(err => dispatch(failure(err.message)));
+  };
+  function request() {
+    return { type: REGISTER_REQUEST };
+  }
+  function success() {
+    return { type: REGISTER_SUCCESS };
+  }
+  function failure(error: string) {
+    return { type: REGISTER_FAILURE, payload: error };
+  }
+};
+
 export const loadUser = (user?: firebase.User) => {
   return (dispatch: any) => {
     dispatch(request());
@@ -85,19 +116,22 @@ export const loadUser = (user?: firebase.User) => {
           const userDoc = snapshot.data() as object;
           dispatch(success({ ...userDoc, id: userId }));
         } else {
-          dispatch(failure());
+          dispatch(incomplete());
         }
       })
-      .catch(() => dispatch(failure()));
+      .catch(() => dispatch(incomplete()));
   };
   function request() {
     return { type: LOAD_USER_REQUEST };
   }
-  function success(data: object) {
+  function success(data: any) {
     return { type: LOAD_USER_SUCCESS, payload: data };
   }
   function failure() {
     return { type: LOAD_USER_FAILURE };
+  }
+  function incomplete() {
+    return { type: LOAD_INCOMPLETE_USER };
   }
 };
 
@@ -230,7 +264,7 @@ export const reloadUser = () => {
           const userDoc = snapshot.data() as object;
           dispatch(success({ ...userDoc, id: userId }));
         } else {
-          dispatch(failure('Profile not found!'));
+          dispatch(incomplete());
         }
       })
       .catch(err => dispatch(failure(err.message)));
@@ -243,6 +277,9 @@ export const reloadUser = () => {
   }
   function failure(error: string) {
     return { type: RELOAD_USER_FAILURE, payload: error };
+  }
+  function incomplete() {
+    return { type: LOAD_INCOMPLETE_USER };
   }
 };
 

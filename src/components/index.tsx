@@ -1,7 +1,7 @@
 import React from 'react';
 import Loadable from 'react-loadable';
 import { Dimmer, Loader } from 'semantic-ui-react';
-import { BrowserRouter, Switch } from 'react-router-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import GuestRoute from '../utils/guestRoute';
 import PrivateRoute from '../utils/privateRoute';
@@ -29,6 +29,11 @@ const Register = Loadable({
   loading: Loading,
 });
 
+const CompleteProfile = Loadable({
+  loader: () => import('./auth/completeProfile'),
+  loading: Loading,
+});
+
 export default class Index extends React.Component {
   render() {
     return (
@@ -37,6 +42,7 @@ export default class Index extends React.Component {
           <Switch>
             <GuestRoute path='/login' component={Login} />
             <GuestRoute path='/register' component={Register} />
+            <Route path='/complete-profile' component={CompleteProfile} />
             <PrivateRoute path='/' component={Home} />
           </Switch>
         </React.Fragment>

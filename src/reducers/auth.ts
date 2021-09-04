@@ -33,6 +33,10 @@ import {
   UPDATE_PHOTO_REQUEST,
   UPDATE_PHOTO_SUCCESS,
   UPDATE_PHOTO_FAILURE,
+  REGISTER_REQUEST,
+  REGISTER_SUCCESS,
+  REGISTER_FAILURE,
+  LOAD_INCOMPLETE_USER,
 } from '../constants/index';
 
 export interface AuthState {
@@ -91,6 +95,7 @@ const auth = (state: AuthState = initialState, action: any) => {
   const { type, payload } = action;
   switch (type) {
     case LOGIN_REQUEST:
+    case REGISTER_REQUEST:
       return {
         ...state,
         authActions: {
@@ -99,6 +104,7 @@ const auth = (state: AuthState = initialState, action: any) => {
         },
       };
     case LOGIN_SUCCESS:
+    case REGISTER_SUCCESS:
       return {
         ...state,
         user: payload,
@@ -109,6 +115,7 @@ const auth = (state: AuthState = initialState, action: any) => {
         },
       };
     case LOGIN_FAILURE:
+    case REGISTER_FAILURE:
       return {
         ...state,
         authActions: {
@@ -330,6 +337,17 @@ const auth = (state: AuthState = initialState, action: any) => {
           ...state.authActions,
           isUpdating: false,
           error: payload,
+        },
+      };
+    case LOAD_INCOMPLETE_USER:
+      return {
+        ...state,
+        user: null,
+        authActions: {
+          ...state.authActions,
+          isLoading: false,
+          isInitialized: true,
+          isAuthenticated: true,
         },
       };
     default:

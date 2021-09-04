@@ -28,7 +28,7 @@ interface IndexState {
   showProfessionalDetailsModal: boolean;
 }
 
-class Index extends React.Component<IndexProps> {
+class Index extends React.Component<IndexProps, IndexState> {
   state = {
     showUpdatePhotoModal: false,
     showBasicDetailsModal: false,
