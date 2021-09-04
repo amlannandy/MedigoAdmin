@@ -1,0 +1,15 @@
+.padded {
+  padding: 20px;
+}
+.p-1 {
+  padding: 10px !important;
+}
+.custom-image {
+  height: 300px;
+  width: 400px;
+  object-fit: cover;
+  margin-right: 20px;
+}
+.btn-row {
+  margin: 15px 0;
+}

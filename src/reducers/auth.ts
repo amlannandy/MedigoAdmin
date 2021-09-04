@@ -37,6 +37,9 @@ import {
   REGISTER_SUCCESS,
   REGISTER_FAILURE,
   LOAD_INCOMPLETE_USER,
+  COMPLETE_PROFILE_REQUEST,
+  COMPLETE_PROFILE_SUCCESS,
+  COMPLETE_PROFILE_FAILURE,
 } from '../constants/index';
 
 export interface AuthState {
@@ -311,6 +314,7 @@ const auth = (state: AuthState = initialState, action: any) => {
     case UPDATE_USER_REQUEST:
     case UPDATE_EMAIL_REQUEST:
     case UPDATE_PHOTO_REQUEST:
+    case COMPLETE_PROFILE_REQUEST:
       return {
         ...state,
         authActions: {
@@ -321,6 +325,7 @@ const auth = (state: AuthState = initialState, action: any) => {
     case UPDATE_USER_SUCCESS:
     case UPDATE_EMAIL_SUCCESS:
     case UPDATE_PHOTO_SUCCESS:
+    case COMPLETE_PROFILE_SUCCESS:
       return {
         ...state,
         authActions: {
@@ -331,6 +336,7 @@ const auth = (state: AuthState = initialState, action: any) => {
     case UPDATE_USER_FAILURE:
     case UPDATE_EMAIL_FAILURE:
     case UPDATE_PHOTO_FAILURE:
+    case COMPLETE_PROFILE_FAILURE:
       return {
         ...state,
         authActions: {

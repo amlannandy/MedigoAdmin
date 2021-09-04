@@ -4,6 +4,7 @@ import {
   doctorsCollection,
   clinicsCollection,
   storage,
+  getGeopoint,
 } from '../utils/firebase';
 import {
   LOGIN_REQUEST,
@@ -42,6 +43,9 @@ import {
   UPDATE_PHOTO_SUCCESS,
   UPDATE_PHOTO_FAILURE,
   LOAD_INCOMPLETE_USER,
+  COMPLETE_PROFILE_REQUEST,
+  COMPLETE_PROFILE_SUCCESS,
+  COMPLETE_PROFILE_FAILURE,
 } from '../constants/index';
 
 export const login = (
@@ -54,7 +58,7 @@ export const login = (
     auth
       .signInWithEmailAndPassword(email, password)
       .then(() => {
-        dispatch(loadUser());
+        dispatch(loadUser(auth.currentUser));
         dispatch(success());
         callback();
       })
@@ -97,6 +101,48 @@ export const register = (
   }
   function failure(error: string) {
     return { type: REGISTER_FAILURE, payload: error };
+  }
+};
+
+export const completeProfile = (data: any) => {
+  return dispatch => {
+    dispatch(request());
+    const user = auth.currentUser;
+    storage
+      .ref(`profilePhotos/${user.uid}/`)
+      .put(data.image)
+      .then(snapshot => {
+        snapshot.ref
+          .getDownloadURL()
+          .then(imageUrl => {
+            const body = {
+              ...data,
+              email: user.email,
+              location: getGeopoint(6, 9),
+              imageUrl,
+            };
+            delete body.image;
+            doctorsCollection
+              .doc(user.uid)
+              .set(body)
+              .then(() => {
+                dispatch(success());
+                dispatch(loadUser(user));
+              })
+              .catch(err => dispatch(failure(err.message)));
+          })
+          .catch(err => dispatch(failure(err.message)));
+      })
+      .catch(err => dispatch(failure(err.message)));
+  };
+  function request() {
+    return { type: COMPLETE_PROFILE_REQUEST };
+  }
+  function success() {
+    return { type: COMPLETE_PROFILE_SUCCESS };
+  }
+  function failure(error: string) {
+    return { type: COMPLETE_PROFILE_FAILURE, payload: error };
   }
 };
 
