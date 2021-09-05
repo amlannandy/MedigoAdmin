@@ -21,6 +21,7 @@ import {
   deletePatient,
   fetchPatients,
 } from '../../../actions/index';
+import EditPatientModal from './editPatientModal';
 
 interface PatientProps extends RouteComponentProps<any> {
   patients: PatientsState;
@@ -30,11 +31,13 @@ interface PatientProps extends RouteComponentProps<any> {
 }
 
 interface PatientState {
+  showEditPatientModal: boolean;
   showDeletePatientModal: boolean;
 }
 
 class Patient extends React.Component<PatientProps, PatientState> {
   state = {
+    showEditPatientModal: false,
     showDeletePatientModal: false,
   };
 
@@ -62,6 +65,17 @@ class Patient extends React.Component<PatientProps, PatientState> {
       deletePatient,
     } = this.props;
     deletePatient(id, () => this.deletePatientCallback(patient.id));
+  };
+
+  editPatientCallback = () => {
+    const {
+      match: {
+        params: { id },
+      },
+      fetchPatient,
+    } = this.props;
+    this.setState({ showEditPatientModal: false });
+    fetchPatient(id);
   };
 
   deletePatientCallback = (id: string) => {
@@ -105,7 +119,13 @@ class Patient extends React.Component<PatientProps, PatientState> {
                       <Icon name='download' />
                       Download
                     </Button>
-                    <Button icon color='yellow' labelPosition='right'>
+                    <Button
+                      icon
+                      color='yellow'
+                      labelPosition='right'
+                      onClick={() =>
+                        this.setState({ showEditPatientModal: true })
+                      }>
                       <Icon name='edit' />
                       Edit
                     </Button>
@@ -209,6 +229,13 @@ class Patient extends React.Component<PatientProps, PatientState> {
           onCancel={() => this.setState({ showDeletePatientModal: false })}
           onConfirm={this.handleDeletePatient}
         />
+        {patientActions.isFetching || !patient ? null : (
+          <EditPatientModal
+            isOpen={this.state.showEditPatientModal}
+            closeModal={() => this.setState({ showEditPatientModal: false })}
+            successCallback={this.editPatientCallback}
+          />
+        )}
       </React.Fragment>
     );
   }

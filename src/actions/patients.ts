@@ -13,6 +13,9 @@ import {
   FETCH_PATIENT_REQUEST,
   FETCH_PATIENT_SUCCESS,
   FETCH_PATIENT_FAILURE,
+  UPDATE_PATIENT_REQUEST,
+  UPDATE_PATIENT_SUCCESS,
+  UPDATE_PATIENT_FAILURE,
 } from '../constants/patients';
 
 export const fetchPatients = (doctorId: string) => {
@@ -114,5 +117,28 @@ export const fetchPatient = (id: string) => {
   }
   function failure(error: string) {
     return { type: FETCH_PATIENT_FAILURE, payload: error };
+  }
+};
+
+export const updatePatient = (id: string, data: any, callback: Function) => {
+  return dispatch => {
+    dispatch(request());
+    patientsCollection
+      .doc(id)
+      .update(data)
+      .then(() => {
+        dispatch(success());
+        callback();
+      })
+      .catch(err => dispatch(failure(err.message)));
+  };
+  function request() {
+    return { type: UPDATE_PATIENT_REQUEST };
+  }
+  function success() {
+    return { type: UPDATE_PATIENT_SUCCESS };
+  }
+  function failure(error: string) {
+    return { type: UPDATE_PATIENT_FAILURE, payload: error };
   }
 };
