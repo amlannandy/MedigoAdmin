@@ -12,17 +12,32 @@ import {
   Divider,
   List,
   Card,
+  Confirm,
 } from 'semantic-ui-react';
 
 import { PatientsState } from '../../../reducers/patients';
-import { fetchPatient } from '../../../actions/index';
+import {
+  fetchPatient,
+  deletePatient,
+  fetchPatients,
+} from '../../../actions/index';
 
 interface PatientProps extends RouteComponentProps<any> {
   patients: PatientsState;
   fetchPatient: (id: string) => void;
+  fetchPatients: (doctorId: string) => void;
+  deletePatient: (id: string, callback: () => void) => void;
 }
 
-class Patient extends React.Component<PatientProps> {
+interface PatientState {
+  showDeletePatientModal: boolean;
+}
+
+class Patient extends React.Component<PatientProps, PatientState> {
+  state = {
+    showDeletePatientModal: false,
+  };
+
   componentDidMount() {
     const {
       match: {
@@ -36,6 +51,23 @@ class Patient extends React.Component<PatientProps> {
   capitalize = (s: string): string => {
     if (!s) return null;
     return s.charAt(0).toUpperCase() + s.slice(1);
+  };
+
+  handleDeletePatient = () => {
+    const {
+      match: {
+        params: { id },
+      },
+      patients: { patient },
+      deletePatient,
+    } = this.props;
+    deletePatient(id, () => this.deletePatientCallback(patient.id));
+  };
+
+  deletePatientCallback = (id: string) => {
+    const { history, fetchPatients } = this.props;
+    history.replace('/patients');
+    fetchPatients(id);
   };
 
   render() {
@@ -69,25 +101,11 @@ class Patient extends React.Component<PatientProps> {
                 </Grid.Column>
                 <Grid.Column width={8}>
                   <ButtonGroup>
-                    <Button
-                      icon
-                      color='facebook'
-                      labelPosition='right'
-                      onClick={() =>
-                        this.setState({ showDeleteClinicModal: true })
-                      }>
+                    <Button icon color='facebook' labelPosition='right'>
                       <Icon name='download' />
                       Download
                     </Button>
-                    <Button
-                      icon
-                      color='yellow'
-                      labelPosition='right'
-                      onClick={() =>
-                        this.setState({
-                          showUpdateClinicDetailsModal: true,
-                        })
-                      }>
+                    <Button icon color='yellow' labelPosition='right'>
                       <Icon name='edit' />
                       Edit
                     </Button>
@@ -96,7 +114,7 @@ class Patient extends React.Component<PatientProps> {
                       negative
                       labelPosition='right'
                       onClick={() =>
-                        this.setState({ showDeleteClinicModal: true })
+                        this.setState({ showDeletePatientModal: true })
                       }>
                       <Icon name='trash' />
                       Delete
@@ -186,6 +204,11 @@ class Patient extends React.Component<PatientProps> {
             </Grid>
           </React.Fragment>
         )}
+        <Confirm
+          open={this.state.showDeletePatientModal}
+          onCancel={() => this.setState({ showDeletePatientModal: false })}
+          onConfirm={this.handleDeletePatient}
+        />
       </React.Fragment>
     );
   }
@@ -201,6 +224,12 @@ const mapDispatchToProps = (dispatch: Function) => {
   return {
     fetchPatient: (id: string) => {
       return dispatch(fetchPatient(id));
+    },
+    fetchPatients: (doctorId: string) => {
+      return dispatch(fetchPatients(doctorId));
+    },
+    deletePatient: (id: string, callback: () => void) => {
+      return dispatch(deletePatient(id, callback));
     },
   };
 };
