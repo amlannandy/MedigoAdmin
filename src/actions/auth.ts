@@ -4,7 +4,6 @@ import {
   doctorsCollection,
   clinicsCollection,
   storage,
-  getGeopoint,
 } from '../utils/firebase';
 import {
   LOGIN_REQUEST,
@@ -118,7 +117,6 @@ export const completeProfile = (data: any) => {
             const body = {
               ...data,
               email: user.email,
-              location: getGeopoint(6, 9),
               imageUrl,
             };
             delete body.image;

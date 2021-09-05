@@ -20,6 +20,7 @@ import { AuthState } from '../../reducers/auth';
 import { isMobilePhone } from '../../utils/helpers';
 import Placeholder from '../../static/placeholder.jpg';
 import { logout, completeProfile } from '../../actions/index';
+import { getGeopoint } from '../../utils/firebase';
 
 interface CustomProps extends RouteComponentProps<any> {
   auth: AuthState;
@@ -39,6 +40,7 @@ interface CustomState {
     experience: string;
     image: any;
     imageUrl: string;
+    location: any;
     errors: {
       name: string;
       age: string;
@@ -67,6 +69,7 @@ class CompleteProfile extends React.Component<CustomProps, CustomState> {
       experience: '',
       image: null,
       imageUrl: '',
+      location: null,
       errors: {
         name: null,
         age: null,
@@ -80,6 +83,32 @@ class CompleteProfile extends React.Component<CustomProps, CustomState> {
         isStep2Valid: false,
       },
     },
+  };
+
+  componentDidMount() {
+    this.getCurrentLocation();
+  }
+
+  getCurrentLocation = () => {
+    navigator.permissions
+      .query({ name: 'geolocation' })
+      .then(res => {
+        if (res.state === 'granted' || res.state === 'prompt') {
+          navigator.geolocation.getCurrentPosition(pos => {
+            const loc = getGeopoint(pos.coords.latitude, pos.coords.longitude);
+            this.setState({ form: { ...this.state.form, location: loc } });
+          });
+        } else {
+          this.setState({
+            form: { ...this.state.form, location: getGeopoint(22, 22) },
+          });
+        }
+      })
+      .catch(() =>
+        this.setState({
+          form: { ...this.state.form, location: getGeopoint(22, 22) },
+        })
+      );
   };
 
   handleOnChange = (e: any) => {
