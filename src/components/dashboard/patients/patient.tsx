@@ -1,7 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
-import { Loader, Message } from 'semantic-ui-react';
+import {
+  Grid,
+  Loader,
+  Message,
+  ButtonGroup,
+  Button,
+  Icon,
+  Header,
+  Divider,
+  List,
+  Card,
+} from 'semantic-ui-react';
 
 import { PatientsState } from '../../../reducers/patients';
 import { fetchPatient } from '../../../actions/index';
@@ -22,6 +33,11 @@ class Patient extends React.Component<PatientProps> {
     fetchPatient(id);
   }
 
+  capitalize = (s: string): string => {
+    if (!s) return null;
+    return s.charAt(0).toUpperCase() + s.slice(1);
+  };
+
   render() {
     const {
       patients: { patient, patientActions },
@@ -38,7 +54,136 @@ class Patient extends React.Component<PatientProps> {
           </Message>
         ) : (
           <React.Fragment>
-            <h1>{patient.name}</h1>
+            <Grid>
+              <Grid.Row>
+                <Grid.Column width={8}>
+                  <Header as='h2'>
+                    <Icon name='user' color='grey' />
+                    <Header.Content>
+                      {patient.name}
+                      <Header.Subheader>{`${this.capitalize(patient.gender)} ${
+                        patient.age
+                      } years old`}</Header.Subheader>
+                    </Header.Content>
+                  </Header>
+                </Grid.Column>
+                <Grid.Column width={8}>
+                  <ButtonGroup>
+                    <Button
+                      icon
+                      color='facebook'
+                      labelPosition='right'
+                      onClick={() =>
+                        this.setState({ showDeleteClinicModal: true })
+                      }>
+                      <Icon name='download' />
+                      Download
+                    </Button>
+                    <Button
+                      icon
+                      color='yellow'
+                      labelPosition='right'
+                      onClick={() =>
+                        this.setState({
+                          showUpdateClinicDetailsModal: true,
+                        })
+                      }>
+                      <Icon name='edit' />
+                      Edit
+                    </Button>
+                    <Button
+                      icon
+                      negative
+                      labelPosition='right'
+                      onClick={() =>
+                        this.setState({ showDeleteClinicModal: true })
+                      }>
+                      <Icon name='trash' />
+                      Delete
+                    </Button>
+                  </ButtonGroup>
+                </Grid.Column>
+              </Grid.Row>
+              <Divider />
+              <Grid.Row>
+                <Card.Group>
+                  {/* Address */}
+                  <Card color='green' className='card'>
+                    <Card.Content>
+                      <Card.Header>Address Details</Card.Header>
+                    </Card.Content>
+                    <Card.Content>
+                      <List>
+                        <List.Item>
+                          <List.Icon name='home' />
+                          <List.Content>
+                            <List.Header as='a'>Address</List.Header>
+                            <List.Description>
+                              {patient.address.address}
+                            </List.Description>
+                          </List.Content>
+                        </List.Item>
+                        <List.Item>
+                          <List.Icon name='building' />
+                          <List.Content>
+                            <List.Header as='a'>City</List.Header>
+                            <List.Description>
+                              {patient.address.city}
+                            </List.Description>
+                          </List.Content>
+                        </List.Item>
+                        <List.Item>
+                          <List.Icon name='pin' />
+                          <List.Content>
+                            <List.Header as='a'>Pincode</List.Header>
+                            <List.Description>
+                              {patient.address.pincode}
+                            </List.Description>
+                          </List.Content>
+                        </List.Item>
+                      </List>
+                    </Card.Content>
+                  </Card>
+                  {/* Health */}
+                  <Card color='green' className='card'>
+                    <Card.Content>
+                      <Card.Header>Medical Details</Card.Header>
+                    </Card.Content>
+                    <Card.Content>
+                      <List>
+                        <List.Item>
+                          <List.Icon name='sort numeric ascending' />
+                          <List.Content>
+                            <List.Header as='a'>Height</List.Header>
+                            <List.Description>
+                              {patient.healthInfo.height} cm
+                            </List.Description>
+                          </List.Content>
+                        </List.Item>
+                        <List.Item>
+                          <List.Icon name='weight' />
+                          <List.Content>
+                            <List.Header as='a'>Weight</List.Header>
+                            <List.Description>
+                              {patient.healthInfo.weight} kg
+                            </List.Description>
+                          </List.Content>
+                        </List.Item>
+                        <List.Item>
+                          <List.Icon name='diamond' />
+                          <List.Content>
+                            <List.Header as='a'>Diabetic</List.Header>
+                            <List.Description>
+                              {patient.healthInfo.isDiabetic ? 'Yes' : 'No'}
+                            </List.Description>
+                          </List.Content>
+                        </List.Item>
+                      </List>
+                    </Card.Content>
+                  </Card>
+                </Card.Group>
+              </Grid.Row>
+            </Grid>
           </React.Fragment>
         )}
       </React.Fragment>
