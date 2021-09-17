@@ -4,7 +4,7 @@ import {
   FETCH_APPOINTMENTS_FAILURE,
 } from '../constants/index';
 
-export interface AppointmentState {
+export interface AppointmentsState {
   appointments: Array<object>;
   appointmentActions: {
     isFetching: boolean;
@@ -13,7 +13,7 @@ export interface AppointmentState {
   };
 }
 
-const initialState: AppointmentState = {
+const initialState: AppointmentsState = {
   appointments: [],
   appointmentActions: {
     isFetching: false,
@@ -22,7 +22,7 @@ const initialState: AppointmentState = {
   },
 };
 
-const appointments = (state: AppointmentState = initialState, action: any) => {
+const appointments = (state: AppointmentsState = initialState, action: any) => {
   const { type, payload } = action;
   switch (type) {
     case FETCH_APPOINTMENTS_REQUEST:

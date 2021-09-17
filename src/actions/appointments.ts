@@ -5,11 +5,12 @@ import {
   FETCH_APPOINTMENTS_FAILURE,
 } from '../constants/index';
 
-export const fetchAppointments = (doctorId: string) => {
+export const fetchAppointments = (doctorId: string, date: string) => {
   return (dispatch: any) => {
     dispatch(request());
     appointmentsCollection
       .where('doctorId', '==', doctorId)
+      .where('date', '==', date)
       .get()
       .then(snapshot => {
         const docs = snapshot.docs;

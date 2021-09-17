@@ -6,11 +6,7 @@ import { Loader, Grid } from 'semantic-ui-react';
 
 import Sidebar from '../layout/sidebar';
 import { AuthState } from '../../reducers/auth';
-import {
-  fetchClinic,
-  fetchPatients,
-  fetchAppointments,
-} from '../../actions/index';
+import { fetchClinic, fetchPatients } from '../../actions/index';
 
 const Loading = () => {
   return <Loader active>Loading...</Loader>;
@@ -55,17 +51,15 @@ interface IndexProps {
   auth: AuthState;
   fetchClinic: (id: string) => void;
   fetchPatients: (doctorId: string) => void;
-  fetchAppointments: (doctorId: string) => void;
 }
 
 class Index extends React.Component<IndexProps> {
   componentDidMount() {
-    const { auth, fetchAppointments, fetchPatients, fetchClinic } = this.props;
+    const { auth, fetchPatients, fetchClinic } = this.props;
     if (auth.authActions.isAuthenticated && auth.user) {
       const userId = auth.user.id;
       const clinicId = auth.user.clinicId;
       fetchPatients(userId);
-      fetchAppointments(userId);
       if (clinicId) {
         fetchClinic(clinicId);
       }
@@ -109,9 +103,6 @@ const mapDispatchToProps = (dispatch: any) => {
     },
     fetchPatients: (doctorId: string) => {
       return dispatch(fetchPatients(doctorId));
-    },
-    fetchAppointments: (doctorId: string) => {
-      return dispatch(fetchAppointments(doctorId));
     },
   };
 };
