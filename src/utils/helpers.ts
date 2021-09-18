@@ -11,7 +11,7 @@ export const getDates = () => {
     let currentDate = new Date();
     currentDate.setDate(nowDate.getDate() + i);
     const currElement = `${getMonth(
-      currentDate.getMonth()
+      currentDate.getMonth() + 1
     )}-${currentDate.getDate()}-${currentDate.getFullYear()}`;
     dates.push(currElement);
   }

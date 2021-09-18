@@ -7,8 +7,18 @@ import {
   CREATE_APPOINTMENT_FAILURE,
 } from '../constants/index';
 
+interface Appointment {
+  id: string;
+  doctorId: string;
+  userId: string;
+  date: string;
+  time: string;
+  reportId?: string;
+  isBooked: boolean;
+}
+
 export interface AppointmentsState {
-  appointments: Array<object>;
+  appointments: Array<Appointment>;
   appointmentActions: {
     isFetching: boolean;
     isCreating: boolean;

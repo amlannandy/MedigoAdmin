@@ -8,6 +8,7 @@ import {
   Loader,
   Menu,
   Table,
+  Message,
 } from 'semantic-ui-react';
 
 import './css/appointments.css';
@@ -95,7 +96,6 @@ class Appointments extends React.Component<ComponentProps, ComponentState> {
       },
       fetchAppointments,
     } = this.props;
-    console.log(id, date);
     fetchAppointments(id, date);
     this.setState({ activeDate: date, startTime: null, endTime: null });
   };
@@ -103,6 +103,7 @@ class Appointments extends React.Component<ComponentProps, ComponentState> {
   render() {
     const {
       appointments: {
+        appointments,
         appointmentActions: { isCreating, isFetching },
       },
     } = this.props;
@@ -164,6 +165,46 @@ class Appointments extends React.Component<ComponentProps, ComponentState> {
             className='loader'
             content='Creating slot...'
           />
+        )}
+        {!isCreating && !isFetching && appointments.length !== 0 && (
+          <Table color='green' celled>
+            <Table.Header>
+              <Table.Row>
+                <Table.HeaderCell>Timing</Table.HeaderCell>
+                <Table.HeaderCell width={2}>Status</Table.HeaderCell>
+                <Table.HeaderCell width={3}>Actions</Table.HeaderCell>
+              </Table.Row>
+            </Table.Header>
+            <Table.Body>
+              {appointments.map(appointment => (
+                <Table.Row key={appointment.id}>
+                  <Table.Cell>{appointment.time}</Table.Cell>
+                  <Table.Cell
+                    positive={!appointment.isBooked}
+                    negative={appointment.isBooked}>
+                    {appointment.isBooked ? 'Booked' : 'Open'}
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Button icon>
+                      <Icon name='angle right' />
+                    </Button>
+                    <Button color='yellow' icon>
+                      <Icon name='edit' />
+                    </Button>
+                    <Button negative icon>
+                      <Icon name='delete' />
+                    </Button>
+                  </Table.Cell>
+                </Table.Row>
+              ))}
+            </Table.Body>
+          </Table>
+        )}
+        {!isFetching && !isCreating && appointments.length === 0 && (
+          <Message warning>
+            <Message.Header>Oops!</Message.Header>
+            <p>No appointments found for this day</p>
+          </Message>
         )}
       </React.Fragment>
     );
