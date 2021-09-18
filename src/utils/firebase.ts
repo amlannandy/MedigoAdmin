@@ -28,6 +28,11 @@ const patientsCollection = db.collection('patients');
 const getGeopoint = (lat: number, lng: number) =>
   new firebase.firestore.GeoPoint(lat, lng);
 
+const currentTimestamp = firebase.firestore.Timestamp.now();
+
+const getTimestampFromDate = (date: Date) =>
+  firebase.firestore.Timestamp.fromDate(date);
+
 export {
   firebase,
   auth,
@@ -39,4 +44,6 @@ export {
   appointmentsCollection,
   patientsCollection,
   getGeopoint,
+  getTimestampFromDate,
+  currentTimestamp,
 };
