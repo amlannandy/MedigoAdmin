@@ -22,7 +22,7 @@ class PrivateRoute extends React.Component<PrivateRouteProps> {
       return <Redirect to='/login' />;
     }
 
-    if (!user) {
+    if (isInitialized && !isLoading && isAuthenticated && !user) {
       return <Redirect to='/complete-profile' />;
     }
 
