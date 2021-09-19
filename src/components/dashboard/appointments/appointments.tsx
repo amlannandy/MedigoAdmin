@@ -9,13 +9,18 @@ import {
   Menu,
   Table,
   Message,
+  Confirm,
 } from 'semantic-ui-react';
 
 import './css/appointments.css';
 import { AuthState } from '../../../reducers/auth';
 import { getDates, getEndTime } from '../../../utils/helpers';
 import { AppointmentsState } from '../../../reducers/appointments';
-import { fetchAppointments, createAppointment } from '../../../actions/index';
+import {
+  fetchAppointments,
+  createAppointment,
+  deleteAppointment,
+} from '../../../actions/index';
 
 const dates = getDates();
 
@@ -30,12 +35,15 @@ interface ComponentProps {
     endTime: string,
     successCallback: Function
   ) => void;
+  deleteAppointment: (id: string, successCallback: Function) => void;
 }
 
 interface ComponentState {
   activeDate: string;
   startTime: string;
   endTime: string;
+  isDeleteModalOpen: boolean;
+  selectedAppointmentId: string;
 }
 
 class Appointments extends React.Component<ComponentProps, ComponentState> {
@@ -43,6 +51,8 @@ class Appointments extends React.Component<ComponentProps, ComponentState> {
     activeDate: dates[0],
     startTime: null,
     endTime: null,
+    isDeleteModalOpen: false,
+    selectedAppointmentId: null,
   };
 
   componentDidMount() {
@@ -89,6 +99,12 @@ class Appointments extends React.Component<ComponentProps, ComponentState> {
     );
   };
 
+  handleDeleteAppointment = () => {
+    const { deleteAppointment } = this.props;
+    const { selectedAppointmentId } = this.state;
+    deleteAppointment(selectedAppointmentId, this.deleteAppointmentCallback);
+  };
+
   createAppointmentCallback = (date: string) => {
     const {
       auth: {
@@ -100,6 +116,17 @@ class Appointments extends React.Component<ComponentProps, ComponentState> {
     this.setState({ activeDate: date, startTime: null, endTime: null });
   };
 
+  deleteAppointmentCallback = () => {
+    const {
+      auth: {
+        user: { id },
+      },
+      fetchAppointments,
+    } = this.props;
+    this.setState({ isDeleteModalOpen: false });
+    fetchAppointments(id, this.state.activeDate);
+  };
+
   render() {
     const {
       appointments: {
@@ -107,105 +134,118 @@ class Appointments extends React.Component<ComponentProps, ComponentState> {
         appointmentActions: { isCreating, isFetching },
       },
     } = this.props;
-    const { activeDate, startTime, endTime } = this.state;
+    const { activeDate, startTime, endTime, isDeleteModalOpen } = this.state;
 
     return (
       <React.Fragment>
-        <Grid>
-          <Grid.Row>
-            <Input
-              name='time'
-              className='mr-5'
-              type='time'
-              value={startTime}
-              onChange={this.selectTime}
+        <React.Fragment>
+          <Grid>
+            <Grid.Row>
+              <Input
+                name='time'
+                className='mr-5'
+                type='time'
+                value={startTime}
+                onChange={this.selectTime}
+              />
+              <span className='mr-5'>_</span>
+              <Input
+                disabled
+                name='time'
+                className='mr-5'
+                type='time'
+                value={endTime}
+                onChange={this.selectTime}
+              />
+              <Button
+                icon
+                labelPosition='right'
+                positive
+                onClick={this.handleCreateAppointment}
+                disabled={!startTime || !endTime || isCreating}>
+                <Icon name='plus' /> Add New Slot
+              </Button>
+            </Grid.Row>
+          </Grid>
+          <Menu tabular>
+            {dates.map(date => (
+              <Menu.Item
+                key={date}
+                name={date}
+                content={date}
+                active={activeDate === date}
+                onClick={this.handleItemClick}
+              />
+            ))}
+          </Menu>
+          {isFetching && (
+            <Loader
+              active
+              inline='centered'
+              className='loader'
+              content='Fetching appointments...'
             />
-            <span className='mr-5'>_</span>
-            <Input
-              disabled
-              name='time'
-              className='mr-5'
-              type='time'
-              value={endTime}
-              onChange={this.selectTime}
+          )}
+          {isCreating && (
+            <Loader
+              active
+              inline='centered'
+              className='loader'
+              content='Creating slot...'
             />
-            <Button
-              icon
-              labelPosition='right'
-              positive
-              onClick={this.handleCreateAppointment}
-              disabled={!startTime || !endTime || isCreating}>
-              <Icon name='plus' /> Add New Slot
-            </Button>
-          </Grid.Row>
-        </Grid>
-        <Menu tabular>
-          {dates.map(date => (
-            <Menu.Item
-              key={date}
-              name={date}
-              content={date}
-              active={activeDate === date}
-              onClick={this.handleItemClick}
-            />
-          ))}
-        </Menu>
-        {isFetching && (
-          <Loader
-            active
-            inline='centered'
-            className='loader'
-            content='Fetching appointments...'
-          />
-        )}
-        {isCreating && (
-          <Loader
-            active
-            inline='centered'
-            className='loader'
-            content='Creating slot...'
-          />
-        )}
-        {!isCreating && !isFetching && appointments.length !== 0 && (
-          <Table color='green' celled>
-            <Table.Header>
-              <Table.Row>
-                <Table.HeaderCell>Timing</Table.HeaderCell>
-                <Table.HeaderCell width={2}>Status</Table.HeaderCell>
-                <Table.HeaderCell width={3}>Actions</Table.HeaderCell>
-              </Table.Row>
-            </Table.Header>
-            <Table.Body>
-              {appointments.map(appointment => (
-                <Table.Row key={appointment.id}>
-                  <Table.Cell>{appointment.time}</Table.Cell>
-                  <Table.Cell
-                    positive={!appointment.isBooked}
-                    negative={appointment.isBooked}>
-                    {appointment.isBooked ? 'Booked' : 'Open'}
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Button icon>
-                      <Icon name='angle right' />
-                    </Button>
-                    <Button color='yellow' icon>
-                      <Icon name='edit' />
-                    </Button>
-                    <Button negative icon>
-                      <Icon name='delete' />
-                    </Button>
-                  </Table.Cell>
+          )}
+          {!isCreating && !isFetching && appointments.length !== 0 && (
+            <Table color='green' celled>
+              <Table.Header>
+                <Table.Row>
+                  <Table.HeaderCell>Timing</Table.HeaderCell>
+                  <Table.HeaderCell width={2}>Status</Table.HeaderCell>
+                  <Table.HeaderCell width={3}>Actions</Table.HeaderCell>
                 </Table.Row>
-              ))}
-            </Table.Body>
-          </Table>
-        )}
-        {!isFetching && !isCreating && appointments.length === 0 && (
-          <Message warning>
-            <Message.Header>Oops!</Message.Header>
-            <p>No appointments found for this day</p>
-          </Message>
-        )}
+              </Table.Header>
+              <Table.Body>
+                {appointments.map(appointment => (
+                  <Table.Row key={appointment.id}>
+                    <Table.Cell>{appointment.time}</Table.Cell>
+                    <Table.Cell
+                      positive={!appointment.isBooked}
+                      negative={appointment.isBooked}>
+                      {appointment.isBooked ? 'Booked' : 'Open'}
+                    </Table.Cell>
+                    <Table.Cell>
+                      <Button icon>
+                        <Icon name='angle right' />
+                      </Button>
+                      <Button
+                        negative
+                        icon
+                        disabled={appointment.isBooked}
+                        onClick={() =>
+                          this.setState({
+                            selectedAppointmentId: appointment.id,
+                            isDeleteModalOpen: true,
+                          })
+                        }>
+                        <Icon name='delete' />
+                      </Button>
+                    </Table.Cell>
+                  </Table.Row>
+                ))}
+              </Table.Body>
+            </Table>
+          )}
+          {!isFetching && !isCreating && appointments.length === 0 && (
+            <Message warning>
+              <Message.Header>Oops!</Message.Header>
+              <p>No appointments found for this day</p>
+            </Message>
+          )}
+        </React.Fragment>
+        <Confirm
+          open={isDeleteModalOpen}
+          onCancel={() => this.setState({ isDeleteModalOpen: false })}
+          onConfirm={this.handleDeleteAppointment}
+        />
       </React.Fragment>
     );
   }
@@ -233,6 +273,9 @@ const mapDispatchToProps = (dispatch: Function) => {
       return dispatch(
         createAppointment(doctorId, date, startTime, endTime, successCallback)
       );
+    },
+    deleteAppointment: (id: string, callback: Function) => {
+      return dispatch(deleteAppointment(id, callback));
     },
   };
 };

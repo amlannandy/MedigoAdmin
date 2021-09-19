@@ -10,6 +10,9 @@ import {
   CREATE_APPOINTMENT_REQUEST,
   CREATE_APPOINTMENT_SUCCESS,
   CREATE_APPOINTMENT_FAILURE,
+  DELETE_APPOINTMENT_REQUEST,
+  DELETE_APPOINTMENT_SUCCESS,
+  DELETE_APPOINTMENT_FAILURE,
 } from '../constants/index';
 
 export const fetchAppointments = (doctorId: string, date: string) => {
@@ -78,5 +81,28 @@ export const createAppointment = (
   }
   function failure(error: string) {
     return { type: CREATE_APPOINTMENT_FAILURE, payload: error };
+  }
+};
+
+export const deleteAppointment = (id: string, successCallback: Function) => {
+  return (dispatch: any) => {
+    dispatch(request());
+    appointmentsCollection
+      .doc(id)
+      .delete()
+      .then(() => {
+        dispatch(success());
+        successCallback();
+      })
+      .catch(err => dispatch(failure(err.message)));
+  };
+  function request() {
+    return { type: DELETE_APPOINTMENT_REQUEST };
+  }
+  function success() {
+    return { type: DELETE_APPOINTMENT_SUCCESS };
+  }
+  function failure(error: string) {
+    return { type: DELETE_APPOINTMENT_FAILURE, payload: error };
   }
 };
